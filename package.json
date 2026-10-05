@@ -1,0 +1,34 @@
+{
+  "name": "quimiport-api",
+  "version": "1.0.0",
+  "description": "Backend do QuimiPort desenvolvido para o Tech Challenge da FIAP — Fase 2. API REST para gerenciamento de produtos e cargas químicas, com aplicação das regras de negócio e persistência de dados.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/main/app.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/main/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreLM1/QuimiPort-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/AndreLM1/QuimiPort-API/issues"
+  },
+  "homepage": "https://github.com/AndreLM1/QuimiPort-API#readme",
+  "dependencies": {
+    "fastify": "^5.12.5",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
+    "tsc-alias": "^1.9.7",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
