@@ -1,5 +1,4 @@
-export class NumeroOnu{
-    
+export class NumeroOnu{    
     constructor(public  codigo: string ){    
         const apenasNumero = new RegExp('^[0-9]{4}$');
         /**
