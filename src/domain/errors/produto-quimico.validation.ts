@@ -2,36 +2,37 @@ import { StatusProduto } from "../enums/status-produto.enum.js"
 import { NumeroOnu } from "../entities/numero-onu.js"
 import { ClasseRisco } from "../enums/classe-de-risco.enum.js"
 import { DomainValidationError } from "./domain-validation.error.js"
+import type { DomainError } from "./domain-interface.error.js"
 
 export function validarCriacao(nome: string, numeroOnu: NumeroOnu ,classeRisco: ClasseRisco, statusProduto: StatusProduto){
     
-    const erros: string[] = [];
+    const erros: DomainError[] = [];
 
         //  Regras de validação para a criação de um produto               
         if(!nome){
-            erros.push("Produto deve conter um nome");
+            // erros.push("Produto deve conter um nome");
+            erros.push({code: "REQUIRED_FIELD", field: "name", message: "Produto deve conter um nome"});
         }
         if(!numeroOnu){
-            erros.push("Produto deve conter o número ONU associado");
+            erros.push({code: "REQUIRED_FIELD", field: "numeroOnu", message: "Produto deve conter o Número ONU"});
         }
         //  Se não houver classe de risco ou não existe a classe dentro do ENUM
         if (!classeRisco){
-            erros.push("Produto deve conter classe de risco");
+            erros.push({code: "REQUIRED_FIELD", field: "classeRisco", message: "Classe de Risco Inválida"});
         }
         if (!(Object.values(ClasseRisco).includes(classeRisco))){
-            erros.push("Classe de risco inválida");
+           erros.push({code: "INVALID_FIELD", field: "classeRisco", message: "Produto deve conter classe de risco"});
         }
         if(!statusProduto || statusProduto === StatusProduto.Inativo){
-            erros.push("Produto deve estar com o status = ATIVO");
+            erros.push({code: "INVALID_FIELD", field: "statusProduto", message: "Produto não pode ser cadastrado com o status Inativo"});
         }
-        if (!(Object.values(StatusProduto).includes(statusProduto))){
-            erros.push(`Status inválido `);
-        }
+        // if (!(Object.values(StatusProduto).includes(statusProduto))){
+        //     erros.push(`Status inválido `);
+        // }
         
         if(erros.length > 0){
-            // const validacaoErros = new DomainValidationError(`${erros.map(item => `${item}`).join('\n')}`)
-            // // throw new Error(`Product Validation Error\n${erros.map(item => `[${item}]`).join('\n')}`);
-            // console.log(validacaoErros)
-            throw new DomainValidationError(`\n${erros.map(item => `[${item}]`).join(' \n')}`)
+            // throw new DomainValidationError(`\n${erros.map((item,index) => `[${index+1}]\n code: ${item.code}\n field: ${item.field}\n message: ${item.message}\n`).join("\n")}`)
+           
+            throw new DomainValidationError(erros, "O produto possui dados inválidos");
         }
 }
