@@ -17,11 +17,8 @@ export function validarCriacao(nome: string, numeroOnu: NumeroOnu ,classeRisco: 
             erros.push({code: "REQUIRED_FIELD", field: "numeroOnu", message: "Produto deve conter o Número ONU"});
         }
         //  Se não houver classe de risco ou não existe a classe dentro do ENUM
-        if (!classeRisco){
+        if (!classeRisco ||!(Object.values(ClasseRisco).includes(classeRisco)) ){
             erros.push({code: "REQUIRED_FIELD", field: "classeRisco", message: "Classe de Risco Inválida"});
-        }
-        if (!(Object.values(ClasseRisco).includes(classeRisco))){
-           erros.push({code: "INVALID_FIELD", field: "classeRisco", message: "Produto deve conter classe de risco"});
         }
         if(!statusProduto || statusProduto === StatusProduto.Inativo){
             erros.push({code: "INVALID_FIELD", field: "statusProduto", message: "Produto não pode ser cadastrado com o status Inativo"});

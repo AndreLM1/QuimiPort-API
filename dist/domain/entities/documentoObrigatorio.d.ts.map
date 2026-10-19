@@ -1,0 +1,1 @@
+{"version":3,"file":"documentoObrigatorio.d.ts","sourceRoot":"","sources":["../../../src/domain/entities/documentoObrigatorio.ts"],"names":[],"mappings":"AAAA,qBAAa,oBAAoB;IAElB,UAAU,EAAE,MAAM;IAClB,mBAAmB,EAAE,OAAO;IAC5B,mBAAmB,EAAE,OAAO;IAC5B,qCAAqC,EAAE,OAAO;IAJzD,YACW,UAAU,EAAE,MAAM,EAClB,mBAAmB,EAAE,OAAO,EAC5B,mBAAmB,EAAE,OAAO,EAC5B,qCAAqC,EAAE,OAAO,EACtD;CACN"}

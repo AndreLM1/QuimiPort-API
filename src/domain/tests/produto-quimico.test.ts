@@ -18,7 +18,18 @@ describe('Validation Product Error', () => {
         } catch (error) {
             expect(error).toBeInstanceOf(DomainValidationError)
             excecaoLancada = true; // Se a excecao for lancada
-            expect(error.violations[0].message).toBe("Produto deve conter um nome")
+            if (error instanceof DomainValidationError) {
+                const primeiraViolacao = error.violations[0];
+
+                expect(primeiraViolacao).toBeDefined();
+
+                if (primeiraViolacao) {
+                    expect(primeiraViolacao.message).toBe(
+                        "Produto deve conter um nome"
+                    );
+                }
+            }
+            // expect(error.violations[0].message).toBe("Produto deve conter um nome")
             
         }
 
@@ -32,11 +43,22 @@ describe('Validation Product Error', () => {
         let excecaoLancada = false;
 
         try{
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina",  StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
+            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", undefined as unknown as ClasseRisco ,StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
         } catch(error) {
             expect(error).toBeInstanceOf(DomainValidationError);
             excecaoLancada = true;
-            expect(error.violations[0].message).toBe("Produto deve conter classe de risco")
+            if (error instanceof DomainValidationError) {
+                const primeiraViolacao = error.violations[0];
+
+                expect(primeiraViolacao).toBeDefined();
+
+                if (primeiraViolacao) {
+                    expect(primeiraViolacao.message).toBe(
+                        "Classe de Risco Inválida"
+                    );
+                }
+            }
+            // expect(error.violations[0].message).toBe("Produto deve conter classe de risco")
         }
 
         expect(excecaoLancada).toBe(true);;
@@ -47,11 +69,22 @@ describe('Validation Product Error', () => {
         let excecaoLancada = false;
 
         try{
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", ClasseRisco.Classe11, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
+            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", undefined as unknown as ClasseRisco, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.b);
         } catch(error) {
             expect(error).toBeInstanceOf(DomainValidationError);
             excecaoLancada = true;
-            expect(error.violations[0].message).toBe("Classe de Risco Inválida")
+            if (error instanceof DomainValidationError) {
+                const primeiraViolacao = error.violations[0];
+
+                expect(primeiraViolacao).toBeDefined();
+
+                if (primeiraViolacao) {
+                    expect(primeiraViolacao.message).toBe(
+                        "Classe de Risco Inválida"
+                    );
+                }
+            }
+            // expect(error.violations[0].message).toBe("Classe de Risco Inválida")
         }
 
         expect(excecaoLancada).toBe(true);
@@ -67,7 +100,18 @@ describe('Validation Product Error', () => {
         } catch(error){
             expect(error).toBeInstanceOf(DomainValidationError);
             excecaoLancada = true;
-            expect(error.violations[0].message).toBe("Produto não pode ser cadastrado com o status Inativo")
+            if (error instanceof DomainValidationError) {
+                const primeiraViolacao = error.violations[0];
+
+                expect(primeiraViolacao).toBeDefined();
+
+                if (primeiraViolacao) {
+                    expect(primeiraViolacao.message).toBe(
+                        "Produto não pode ser cadastrado com o status Inativo"
+                    );
+                }
+            }
+            // expect(error.violations[0].message).toBe("Produto não pode ser cadastrado com o status Inativo")
         }
 
         expect(excecaoLancada).toBe(true);

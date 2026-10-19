@@ -1,0 +1,1 @@
+{"version":3,"file":"numero-onu.js","sourceRoot":"","sources":["../../../src/domain/entities/numero-onu.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,SAAS;IACE,MAAM;IAA1B,YAAoB,MAAc;sBAAd,MAAM;QACtB,MAAM,YAAY,GAAG,IAAI,MAAM,CAAC,YAAY,CAAC,CAAC;QAC9C;;;;;WAKG;QACH,IAAG,CAAC,YAAY,CAAC,IAAI,CAAC,MAAM,CAAC,EAAE,CAAC;YAC5B,MAAM,KAAK,CAAC,4CAA4C,CAAC,CAAA;QAC7D,CAAC;IACL,CAAC;CACJ"}
