@@ -1,7 +1,7 @@
 import type { DocumentoObrigatorio } from "@/domain/entities/documentoObrigatorio.js";
-import { UnidadeDeMedida } from "../../domain/enums/unidade-de-medida.enum.js"
+import type { UnidadeDeMedida } from "../../domain/enums/unidade-de-medida.enum.js"
 
-export interface InputRegistrarCargaQuimica {
+export interface InputRegistrarCargaQuimicaDto {
     codigoCarga: string;
     produtoQuimicoId: number
     quantidade: number,
