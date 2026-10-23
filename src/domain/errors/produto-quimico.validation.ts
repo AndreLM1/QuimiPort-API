@@ -4,7 +4,7 @@ import { ClasseRisco } from "../enums/classe-de-risco.enum.js"
 import { DomainValidationError } from "./domain-validation.error.js"
 import type { DomainError } from "./domain-interface.error.js"
 
-export function validarCriacao(nome: string, numeroOnu: NumeroOnu ,classeRisco: ClasseRisco, statusProduto: StatusProduto){
+export function validarCriacao(id: number, nome: string, numeroOnu: NumeroOnu ,classeRisco: ClasseRisco, statusProduto: StatusProduto){
     
     const erros: DomainError[] = [];
 

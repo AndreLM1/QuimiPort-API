@@ -1,7 +1,7 @@
 export enum GrupoCompatibilidade{
-    x = "Grupode X",
-    a = "Grupode A",
-    b = "Grupode B",
-    c = "Grupode C",
-    d = "Grupode D"
+    x = "Grupo X",
+    a = "Grupo A",
+    b = "Grupo B",
+    c = "Grupo C",
+    d = "Grupo D"
 }

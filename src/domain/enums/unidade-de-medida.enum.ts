@@ -4,5 +4,5 @@ export enum UnidadeDeMedida{
     t="Tonelada",
     l= "Litro",
     ml= "Mililitro",
-    m3= "Metro cúbico"
+    m3= "Metro cubico"
 }

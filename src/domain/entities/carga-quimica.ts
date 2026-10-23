@@ -17,7 +17,6 @@ export class CargaQuimica{
         public destino: string,
         public responsavelTecnico: string,
         public documentoObrigatorio: DocumentoObrigatorio,
-        // private _statusCarga: StatusCargaQuimica = StatusCargaQuimica.Registrada,
         public dataEntrada?: Date,
         public dataCriacao?: Date,
         public dataAtualizacao?: Date,

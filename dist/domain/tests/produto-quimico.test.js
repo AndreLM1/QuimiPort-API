@@ -12,7 +12,7 @@ describe('Validation Product Error', () => {
         // Tenta criar o produto.
         // Se ocorrer uma exceção, verifique seu tipo e a mensagem da violação.
         try {
-            new ProdutoQuimico("", new NumeroOnu("1234"), "Gasolina", ClasseRisco.Classe1, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
+            new ProdutoQuimico(1, "", new NumeroOnu("1234"), "Gasolina", ClasseRisco.Classe1, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
         }
         catch (error) {
             expect(error).toBeInstanceOf(DomainValidationError);
@@ -35,7 +35,7 @@ describe('Validation Product Error', () => {
     it('Devera impedir a criacao de um produto quimico sem classe de risco', () => {
         let excecaoLancada = false;
         try {
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", undefined, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
+            new ProdutoQuimico(1, "Produto", new NumeroOnu("1234"), "Gasolina", undefined, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
         }
         catch (error) {
             expect(error).toBeInstanceOf(DomainValidationError);
@@ -56,7 +56,7 @@ describe('Validation Product Error', () => {
     it('Devera impedir a criacao de um produto com classe de risco inválida', () => {
         let excecaoLancada = false;
         try {
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", undefined, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.b);
+            new ProdutoQuimico(1, "Produto", new NumeroOnu("1234"), "Gasolina", undefined, StatusProduto.Ativo, new Date('2026-10-13'), GrupoCompatibilidade.b);
         }
         catch (error) {
             expect(error).toBeInstanceOf(DomainValidationError);
@@ -76,7 +76,7 @@ describe('Validation Product Error', () => {
     it('Devera impedir a criacao de um produto com status inativo', () => {
         let excecaoLancada = false;
         try {
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", ClasseRisco.Classe1, StatusProduto.Inativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
+            new ProdutoQuimico(1, "Produto", new NumeroOnu("1234"), "Gasolina", ClasseRisco.Classe1, StatusProduto.Inativo, new Date('2026-10-13'), GrupoCompatibilidade.a);
         }
         catch (error) {
             expect(error).toBeInstanceOf(DomainValidationError);

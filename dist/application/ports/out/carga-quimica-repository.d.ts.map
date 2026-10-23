@@ -1,0 +1,1 @@
+{"version":3,"file":"carga-quimica-repository.d.ts","sourceRoot":"","sources":["../../../../src/application/ports/out/carga-quimica-repository.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,YAAY,EAAG,MAAM,oCAAoC,CAAC;AAExE,MAAM,WAAW,sBAAsB;IAEpC,SAAS,CAAC,YAAY,EAAE,YAAY,GAAE,OAAO,CAAC,YAAY,CAAC,CAAA;CAC7D"}

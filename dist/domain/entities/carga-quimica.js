@@ -16,9 +16,7 @@ export class CargaQuimica {
     dataCriacao;
     dataAtualizacao;
     id;
-    constructor(codigoCarga, produtoQuimicoId, quantidade, unidadeMedida, origem, destino, responsavelTecnico, documentoObrigatorio, 
-    // private _statusCarga: StatusCargaQuimica = StatusCargaQuimica.Registrada,
-    dataEntrada, dataCriacao, dataAtualizacao, id) {
+    constructor(codigoCarga, produtoQuimicoId, quantidade, unidadeMedida, origem, destino, responsavelTecnico, documentoObrigatorio, dataEntrada, dataCriacao, dataAtualizacao, id) {
         this.codigoCarga = codigoCarga;
         this.produtoQuimicoId = produtoQuimicoId;
         this.quantidade = quantidade;

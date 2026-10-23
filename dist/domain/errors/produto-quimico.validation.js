@@ -2,7 +2,7 @@ import { StatusProduto } from "../enums/status-produto.enum.js";
 import { NumeroOnu } from "../entities/numero-onu.js";
 import { ClasseRisco } from "../enums/classe-de-risco.enum.js";
 import { DomainValidationError } from "./domain-validation.error.js";
-export function validarCriacao(nome, numeroOnu, classeRisco, statusProduto) {
+export function validarCriacao(id, nome, numeroOnu, classeRisco, statusProduto) {
     const erros = [];
     //  Regras de validação para a criação de um produto               
     if (!nome) {
