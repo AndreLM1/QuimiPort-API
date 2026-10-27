@@ -10,11 +10,11 @@ export declare class CargaQuimica {
     destino: string;
     responsavelTecnico: string;
     documentoObrigatorio: DocumentoObrigatorio;
-    dataEntrada?: Date | undefined;
-    dataCriacao?: Date | undefined;
-    dataAtualizacao?: Date | undefined;
+    dataEntrada?: Date | null | undefined;
+    dataCriacao?: Date | null | undefined;
+    dataAtualizacao?: Date | null | undefined;
     id?: number | undefined;
-    constructor(codigoCarga: string, produtoQuimicoId: number, quantidade: number, unidadeMedida: UnidadeDeMedida, origem: string, destino: string, responsavelTecnico: string, documentoObrigatorio: DocumentoObrigatorio, dataEntrada?: Date | undefined, dataCriacao?: Date | undefined, dataAtualizacao?: Date | undefined, id?: number | undefined);
+    constructor(codigoCarga: string, produtoQuimicoId: number, quantidade: number, unidadeMedida: UnidadeDeMedida, origem: string, destino: string, responsavelTecnico: string, documentoObrigatorio: DocumentoObrigatorio, dataEntrada?: Date | null | undefined, dataCriacao?: Date | null | undefined, dataAtualizacao?: Date | null | undefined, id?: number | undefined);
     private validarDados;
     private _statusCarga;
     get statusCarga(): StatusCargaQuimica;

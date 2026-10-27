@@ -1,9 +1,9 @@
 export var GrupoCompatibilidade;
 (function (GrupoCompatibilidade) {
-    GrupoCompatibilidade["x"] = "Grupode X";
-    GrupoCompatibilidade["a"] = "Grupode A";
-    GrupoCompatibilidade["b"] = "Grupode B";
-    GrupoCompatibilidade["c"] = "Grupode C";
-    GrupoCompatibilidade["d"] = "Grupode D";
+    GrupoCompatibilidade["x"] = "Grupo X";
+    GrupoCompatibilidade["a"] = "Grupo A";
+    GrupoCompatibilidade["b"] = "Grupo B";
+    GrupoCompatibilidade["c"] = "Grupo C";
+    GrupoCompatibilidade["d"] = "Grupo D";
 })(GrupoCompatibilidade || (GrupoCompatibilidade = {}));
 //# sourceMappingURL=grupo-compatibilidade.enum.js.map

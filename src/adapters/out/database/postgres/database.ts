@@ -14,7 +14,7 @@ function requiredEnv(name: string ){
 };
 
 // Cria Pool de conexão usando as variáveis do ambiente
-export const pool = new Pool({
+export const DatabaseConnection  = new Pool({
     user: requiredEnv("DATABASE_USER"),
     host: requiredEnv("DATABASE_HOST"),
     database: requiredEnv("DATABASE_NAME"),

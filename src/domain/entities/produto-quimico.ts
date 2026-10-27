@@ -6,15 +6,15 @@ import { validarCriacao } from "../errors/produto-quimico.validation.js"
 
 export class ProdutoQuimico{
      constructor(
-        public id: number,
         public nome: string,
         public numeroOnu: NumeroOnu, // CLASS 
         public descricao: string,
         public classeRisco: ClasseRisco, //ENUM
-        public statusProduto: StatusProduto, //ENUM
-        public dataCriacao: Date,
+        public statusProduto: StatusProduto, //ENUM        
         public grupoCompatibilidade : GrupoCompatibilidade, // ENUM
-        public dataAlteracao?: Date,
+        public dataCriacao?: Date | null,
+        public dataAlteracao?: Date | null,
+        public id?: number
         
         
     ){ 
@@ -24,7 +24,7 @@ export class ProdutoQuimico{
 
     // Metodo para validar os dados
     private validarDados(): void{
-        validarCriacao(this.id,this.nome, this.numeroOnu,  this.classeRisco, this.statusProduto);
+        validarCriacao(this.nome, this.numeroOnu,  this.classeRisco, this.statusProduto);
     }     
 }
 

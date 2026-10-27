@@ -1,0 +1,1 @@
+{"version":3,"file":"produto-quimico.routes.d.ts","sourceRoot":"","sources":["../../../../../src/adapters/in/http/routes/produto-quimico.routes.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,SAAS,CAAC;AAE/C,OAAO,EAAE,wBAAwB,EAAE,MAAM,6DAA6D,CAAA;AAEtG,wBAAsB,oBAAoB,CAAC,GAAG,EAAE,eAAe,EAAE,UAAU,EAAE,wBAAwB,iBAYpG"}

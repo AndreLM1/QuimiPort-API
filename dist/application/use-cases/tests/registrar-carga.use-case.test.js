@@ -1,7 +1,7 @@
 import { produtoQuimicoRepositoryMock, findByIdMock } from "../../mocks/produto-quimico-repository.mock.js";
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import { cargaQuimicaRepositoryMock } from "../../mocks/carga-quimica-repository.mock.js";
-import { RegistrarCargaQuimicaUseCase } from "../registrar-carga.use-case.js";
+import { RegistrarCargaQuimicaUseCase } from "../carga-quimica/registrar-carga.use-case.js";
 import { UnidadeDeMedida } from "../../../domain/enums/unidade-de-medida.enum.js";
 import { DocumentoObrigatorio } from "../../../domain/entities/documentoObrigatorio.js";
 import { ProdutoQuimico } from "../../../domain/entities/produto-quimico.js";
@@ -10,7 +10,7 @@ import { ClasseRisco } from "../../../domain/enums/classe-de-risco.enum.js";
 import { StatusProduto } from "../../../domain/enums/status-produto.enum.js";
 import { GrupoCompatibilidade } from "../../../domain/enums/grupo-compatibilidade.enum.js";
 import { CargaQuimica } from "../../../domain/entities/carga-quimica.js";
-describe("Validation Use Case", () => {
+describe("Validation Registrar Carga Quimica Use Case", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -39,10 +39,11 @@ describe("Validation Use Case", () => {
     });
     it("Deve lançar erro quando o produto químico for inativo", async () => {
         // ARRANGE — Preparação do cenário de teste.
+        const produtoId = 1;
         // Cria uma instância real de ProdutoQuimico com os dados necessários.
         // O primeiro argumento é o ID do produto: 1.
         // Os demais argumentos representam os atributos exigidos pelo construtor.
-        const produto = new ProdutoQuimico(1, "Gasolina", new NumeroOnu("1345"), "Combustível líquido e inflamável", ClasseRisco.Classe1, StatusProduto.Ativo, new Date(2026, 10, 21), GrupoCompatibilidade.b, new Date(2026, 10, 21));
+        const produto = new ProdutoQuimico("Gasolina", new NumeroOnu("1345"), "Combustível líquido e inflamável", ClasseRisco.Classe1, StatusProduto.Ativo, GrupoCompatibilidade.b, new Date(2026, 10, 21), new Date(2026, 10, 26), produtoId);
         // Altera o status do produto para inativo.
         // Assim, conseguimos simular um produto existente que não pode
         // ser associado a uma nova carga química.
@@ -59,7 +60,7 @@ describe("Validation Use Case", () => {
         // InputRegistrarCargaQuimicaDto.
         const input = {
             codigoCarga: "B-2342",
-            produtoQuimicoId: produto.id,
+            produtoQuimicoId: produtoId,
             quantidade: 4,
             unidadeMedida: UnidadeDeMedida.kg,
             origem: "Portugal",
@@ -73,7 +74,7 @@ describe("Validation Use Case", () => {
         // com o erro informado, pois o produto está inativo.
         await expect(useCase.execute(input)).rejects.toThrow("Produto Químico inativo, não pode ser associado à uma Carga Química");
         // Confirma que a consulta do produto foi feita com o id do input
-        expect(produtoQuimicoRepositoryMock.findById).toHaveBeenCalledWith(produto.id);
+        expect(produtoQuimicoRepositoryMock.findById).toHaveBeenCalledWith(produtoId);
         // Confirma que a carga não foi enviada para a persistência
         expect(cargaQuimicaRepositoryMock.registrar).not.toHaveBeenCalled();
     });
@@ -82,7 +83,8 @@ describe("Validation Use Case", () => {
         // Cria uma instância real de ProdutoQuimico com os dados necessários.
         // O primeiro argumento é o ID do produto: 1.
         // Os demais argumentos representam os atributos exigidos pelo construtor.
-        const produto = new ProdutoQuimico(1, "Gasolina", new NumeroOnu("1345"), "Combustível líquido e inflamável", ClasseRisco.Classe1, StatusProduto.Ativo, new Date(2026, 10, 21), GrupoCompatibilidade.b, new Date(2026, 10, 21));
+        const produtoId = 1;
+        const produto = new ProdutoQuimico("Gasolina", new NumeroOnu("1345"), "Combustível líquido e inflamável", ClasseRisco.Classe1, StatusProduto.Ativo, GrupoCompatibilidade.b, new Date(2026, 10, 21), new Date(2026, 10, 26), produtoId);
         // Configura o mock para que a consulta do produto retorne
         // a instância criada acima, em vez de retornar undefined.
         // O método retorna uma Promise resolvida com o produto.
@@ -95,7 +97,7 @@ describe("Validation Use Case", () => {
         // InputRegistrarCargaQuimicaDto.
         const input = {
             codigoCarga: "B-2342",
-            produtoQuimicoId: produto.id,
+            produtoQuimicoId: produtoId,
             quantidade: 4,
             unidadeMedida: UnidadeDeMedida.kg,
             origem: "Portugal",
@@ -108,7 +110,7 @@ describe("Validation Use Case", () => {
         // A expectativa é que execute(input) seja resolvida
         await expect(useCase.execute(input)).resolves.toBeInstanceOf(CargaQuimica);
         // Confirma que a consulta do produto foi feita com o id do input
-        expect(produtoQuimicoRepositoryMock.findById).toHaveBeenCalledWith(produto.id);
+        expect(produtoQuimicoRepositoryMock.findById).toHaveBeenCalledWith(produtoId);
         // Confirma que a carga não foi enviada para a persistência
         expect(cargaQuimicaRepositoryMock.registrar).toHaveBeenCalled();
     });

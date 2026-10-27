@@ -5,6 +5,6 @@ export var UnidadeDeMedida;
     UnidadeDeMedida["t"] = "Tonelada";
     UnidadeDeMedida["l"] = "Litro";
     UnidadeDeMedida["ml"] = "Mililitro";
-    UnidadeDeMedida["m3"] = "Metro c\u00FAbico";
+    UnidadeDeMedida["m3"] = "Metro cubico";
 })(UnidadeDeMedida || (UnidadeDeMedida = {}));
 //# sourceMappingURL=unidade-de-medida.enum.js.map

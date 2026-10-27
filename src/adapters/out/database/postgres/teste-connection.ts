@@ -1,7 +1,7 @@
-import { pool } from "./database.js";
+import { DatabaseConnection  } from "./database.js";
 
 try {
-    const result = await pool.query("SELECT NOW() AS horario");
+    const result = await DatabaseConnection.query("SELECT NOW() AS horario");
 
     console.log("Conexão com PostgreSQL estabelecida!");
     console.log("Horário retornado pelo banco:", result.rows[0].horario);
@@ -9,5 +9,5 @@ try {
     console.error("Falha ao conectar com PostgreSQL:", error);
     process.exitCode = 1;
 } finally {
-    await pool.end();
+    await DatabaseConnection .end();
 }

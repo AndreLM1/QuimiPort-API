@@ -17,9 +17,9 @@ export class CargaQuimica{
         public destino: string,
         public responsavelTecnico: string,
         public documentoObrigatorio: DocumentoObrigatorio,
-        public dataEntrada?: Date,
-        public dataCriacao?: Date,
-        public dataAtualizacao?: Date,
+        public dataEntrada?: Date | null,
+        public dataCriacao?: Date | null,
+        public dataAtualizacao?: Date | null,
         public id?: number
     ){
         this.validarDados();
