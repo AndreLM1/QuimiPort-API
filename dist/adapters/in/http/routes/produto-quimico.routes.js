@@ -9,5 +9,8 @@ export async function produtoQuimicoRoutes(app, controller) {
     app.get("/produtos-quimicos/:id", (request, reply) => {
         return controller.findId(request, reply);
     });
+    app.put("/produtos-quimicos/:id/inativar", (request, reply) => {
+        return controller.inativar(request, reply);
+    });
 }
 //# sourceMappingURL=produto-quimico.routes.js.map

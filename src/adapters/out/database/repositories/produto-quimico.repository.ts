@@ -2,6 +2,7 @@ import type { ProdutoQuimicoRepository } from "@/application/ports/out/produto-q
 import type { DatabaseConnection } from "@/adapters/out/database/postgres/database.js"
 import { ProdutoQuimico } from "@/domain/entities/produto-quimico.js";
 import { NumeroOnu } from "@/domain/entities/numero-onu.js";
+import { StatusProduto } from "@/domain/enums/status-produto.enum.js";
 
 export class ProdutoQuimicoSqlRepository implements ProdutoQuimicoRepository {
     constructor(private readonly db: typeof DatabaseConnection) { };
@@ -92,6 +93,34 @@ export class ProdutoQuimicoSqlRepository implements ProdutoQuimicoRepository {
             );
             produtos.push(produto);
         };
-        return produtos;     
+        return produtos;
     };
+
+    // Inativar
+    async inativar(id: number): Promise<ProdutoQuimico | undefined> {
+        const query = `UPDATE produtoquimico
+        SET statusproduto=$1, dataalteracao = CURRENT_TIMESTAMP
+        WHERE produtoid= $2
+        RETURNING*`;
+
+        const { rows } = await this.db.query(query, [StatusProduto.Inativo, id]);
+
+        const produtoProcurado = rows[0];
+
+        if (!produtoProcurado) {
+            return undefined;
+        };
+
+        return new ProdutoQuimico(
+            produtoProcurado.nome,
+            new NumeroOnu(produtoProcurado.numeroonu),
+            produtoProcurado.descricao,
+            produtoProcurado.classerisco,
+            produtoProcurado.statusproduto,
+            produtoProcurado.grupocompatibilidade,
+            produtoProcurado.datacriacao,
+            produtoProcurado.dataalteracao,
+            produtoProcurado.produtoid
+        );
+    }
 };

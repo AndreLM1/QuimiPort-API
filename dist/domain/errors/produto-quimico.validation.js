@@ -16,7 +16,7 @@ export function validarCriacao(nome, numeroOnu, classeRisco, statusProduto) {
     if (!classeRisco || !(Object.values(ClasseRisco).includes(classeRisco))) {
         erros.push({ code: "REQUIRED_FIELD", field: "classeRisco", message: "Classe de Risco Inválida" });
     }
-    if (!statusProduto || statusProduto === StatusProduto.Inativo) {
+    if (!Object.values(StatusProduto).includes(statusProduto)) {
         erros.push({ code: "INVALID_FIELD", field: "statusProduto", message: "Produto não pode ser cadastrado com o status Inativo" });
     }
     // if (!(Object.values(StatusProduto).includes(statusProduto))){

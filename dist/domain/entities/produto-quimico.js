@@ -34,5 +34,13 @@ export class ProdutoQuimico {
     validarDados() {
         validarCriacao(this.nome, this.numeroOnu, this.classeRisco, this.statusProduto);
     }
+    ;
+    inativar() {
+        if (this.statusProduto === StatusProduto.Inativo) {
+            return;
+        }
+        ;
+        this.statusProduto = StatusProduto.Inativo;
+    }
 }
 //# sourceMappingURL=produto-quimico.js.map

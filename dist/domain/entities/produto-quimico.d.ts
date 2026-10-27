@@ -18,5 +18,6 @@ export declare class ProdutoQuimico {
     grupoCompatibilidade: GrupoCompatibilidade, // ENUM
     dataCriacao?: Date | null | undefined, dataAlteracao?: Date | null | undefined, id?: number | undefined);
     private validarDados;
+    inativar(): void;
 }
 //# sourceMappingURL=produto-quimico.d.ts.map

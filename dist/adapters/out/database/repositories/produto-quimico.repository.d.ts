@@ -7,5 +7,6 @@ export declare class ProdutoQuimicoSqlRepository implements ProdutoQuimicoReposi
     findById(id: number): Promise<ProdutoQuimico | undefined>;
     registrar(produtoQuimico: ProdutoQuimico): Promise<ProdutoQuimico>;
     findAll(): Promise<ProdutoQuimico[]>;
+    inativar(id: number): Promise<ProdutoQuimico | undefined>;
 }
 //# sourceMappingURL=produto-quimico.repository.d.ts.map

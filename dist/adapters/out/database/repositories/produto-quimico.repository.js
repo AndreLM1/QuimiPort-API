@@ -1,5 +1,6 @@
 import { ProdutoQuimico } from "../../../../domain/entities/produto-quimico.js";
 import { NumeroOnu } from "../../../../domain/entities/numero-onu.js";
+import { StatusProduto } from "../../../../domain/enums/status-produto.enum.js";
 export class ProdutoQuimicoSqlRepository {
     db;
     constructor(db) {
@@ -57,6 +58,20 @@ export class ProdutoQuimicoSqlRepository {
         return produtos;
     }
     ;
+    // Inativar
+    async inativar(id) {
+        const query = `UPDATE produtoquimico
+        SET statusproduto=$1, dataalteracao = CURRENT_TIMESTAMP
+        WHERE produtoid= $2
+        RETURNING*`;
+        const { rows } = await this.db.query(query, [StatusProduto.Inativo, id]);
+        const produtoProcurado = rows[0];
+        if (!produtoProcurado) {
+            return undefined;
+        }
+        ;
+        return new ProdutoQuimico(produtoProcurado.nome, new NumeroOnu(produtoProcurado.numeroonu), produtoProcurado.descricao, produtoProcurado.classerisco, produtoProcurado.statusproduto, produtoProcurado.grupocompatibilidade, produtoProcurado.datacriacao, produtoProcurado.dataalteracao, produtoProcurado.produtoid);
+    }
 }
 ;
 //# sourceMappingURL=produto-quimico.repository.js.map

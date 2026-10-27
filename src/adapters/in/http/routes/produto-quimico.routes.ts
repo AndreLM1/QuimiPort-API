@@ -14,4 +14,8 @@ export async function produtoQuimicoRoutes(app: FastifyInstance, controller: Pro
     app.get<{ Params: { id: string } }>("/produtos-quimicos/:id", (request, reply) =>{
         return controller.findId(request, reply);
     });
+
+    app.put<{ Params: { id: string } }>("/produtos-quimicos/:id/inativar", (request, reply) =>{
+        return controller.inativar(request, reply);
+    })
 }

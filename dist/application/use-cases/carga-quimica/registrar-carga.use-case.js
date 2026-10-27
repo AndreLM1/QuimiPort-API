@@ -1,6 +1,7 @@
 import { CargaQuimica } from "../../../domain/entities/carga-quimica.js";
 import { StatusProduto } from "../../../domain/enums/status-produto.enum.js";
 import { ResourceNotFoundError } from "../../errors/resource-not-found.error.js";
+import { DomainValidationError } from "../../../domain/errors/domain-validation.error.js";
 export class RegistrarCargaQuimicaUseCase {
     produtoQuimicoRepository;
     cargaQuimicaRepository;
@@ -20,9 +21,12 @@ export class RegistrarCargaQuimicaUseCase {
         }
         ;
         if (produtoQuimico.statusProduto !== StatusProduto.Ativo) {
-            throw new Error("Produto Químico inativo, não pode ser associado à uma Carga Química");
+            throw new DomainValidationError([{
+                    code: "PRODUTO_QUIMICO_INATIVO",
+                    field: "statusProduto",
+                    message: "Não é permitido registrar uma carga com um produto químico inativo"
+                }], "Não foi possível registrar a carga química");
         }
-        ;
         // Instanciando uma Carga Química
         const cargaQuimica = new CargaQuimica(input.codigoCarga, input.produtoQuimicoId, input.quantidade, input.unidadeMedida, input.origem, input.destino, input.responsavelTecnico, input.documentoObrigatorio);
         const persistirCarga = await this.cargaQuimicaRepository.registrar(cargaQuimica);

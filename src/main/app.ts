@@ -11,6 +11,7 @@ import { ProdutoQuimicoController } from "@/adapters/in/http/controller/produto-
 import { RegistrarProdutoQuimicoUseCase } from "@/application/use-cases/produto-quimico/registrar-produto.use-case.js";
 import { ListarProdutoQuimicoUseCase } from "@/application/use-cases/produto-quimico/listar-produto.use-case.js";
 import { BuscarProdutoQuimicoPorIdUseCase } from "@/application/use-cases/produto-quimico/listar-id-produto.use-case.js";
+import { InativarProdutoQuimicoUseCase } from "@/application/use-cases/produto-quimico/inativar-produto.use-case.js";
 
 
 //-------------  Instância do Fastify -------------
@@ -32,6 +33,7 @@ const registrarCargaUseCase = new RegistrarCargaQuimicaUseCase(
 const registrarProdutoQuimicoUseCase = new RegistrarProdutoQuimicoUseCase(produtoRepository);
 const listarProdutoQuimicoUseCase = new ListarProdutoQuimicoUseCase(produtoRepository)
 const buscarProdutoQuimicoPorIdUseCase = new BuscarProdutoQuimicoPorIdUseCase(produtoRepository)
+const inativarProdutoQuimicoUseCase = new InativarProdutoQuimicoUseCase(produtoRepository)
 
 //------------- Instância Controller -------------   
 const cargaController = new CargaQuimicaController(registrarCargaUseCase);
@@ -39,7 +41,8 @@ const cargaController = new CargaQuimicaController(registrarCargaUseCase);
 const produtoController = new ProdutoQuimicoController(
     registrarProdutoQuimicoUseCase,
     listarProdutoQuimicoUseCase,
-    buscarProdutoQuimicoPorIdUseCase)
+    buscarProdutoQuimicoPorIdUseCase,
+    inativarProdutoQuimicoUseCase)
 
 
 
