@@ -1,3 +1,4 @@
+import { DomainValidationError } from "../errors/domain-validation.error.js";
 export class NumeroOnu {
     codigo;
     constructor(codigo) {
@@ -10,7 +11,11 @@ export class NumeroOnu {
             $ → fim da string
          */
         if (!apenasNumero.test(codigo)) {
-            throw Error("Código Onu deve conter 4 digitos numéricos");
+            throw new DomainValidationError([{
+                    code: "INVALID_FIELD",
+                    field: "numeroOnu",
+                    message: "Código Onu deve conter 4 digitos numéricos"
+                }], "Produto com dados inválidos");
         }
     }
 }

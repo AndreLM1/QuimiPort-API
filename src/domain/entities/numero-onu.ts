@@ -1,5 +1,7 @@
-export class NumeroOnu{    
-    constructor(public  codigo: string ){    
+import { DomainValidationError } from "@/domain/errors/domain-validation.error.js"
+
+export class NumeroOnu {
+    constructor(public codigo: string) {
         const apenasNumero = new RegExp('^[0-9]{4}$');
         /**
             ^ → início da string
@@ -7,9 +9,16 @@ export class NumeroOnu{
             {4} → exige exatamente 4 ocorrências
             $ → fim da string
          */
-        if(!apenasNumero.test(codigo) ){
-            throw Error("Código Onu deve conter 4 digitos numéricos")
-        }    
+        if (!apenasNumero.test(codigo)) {
+            throw new DomainValidationError(
+                [{
+                    code: "INVALID_FIELD",
+                    field: "numeroOnu",
+                    message: "Código Onu deve conter 4 digitos numéricos"
+                }],
+                "Produto com dados inválidos"
+            );
+        }
     }
 }
 

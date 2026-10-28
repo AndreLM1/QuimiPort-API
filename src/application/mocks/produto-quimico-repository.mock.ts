@@ -10,12 +10,15 @@ export const registrarMock = jest.fn<ProdutoQuimicoRepository["registrar"]>();
 
 export const findAllMock = jest.fn<ProdutoQuimicoRepository["findAll"]>();
 
-export const inativarMock = jest.fn<ProdutoQuimicoRepository["inativar"]>()
+export const inativarMock = jest.fn<ProdutoQuimicoRepository["inativar"]>();
+
+export const alterarMock = jest.fn<ProdutoQuimicoRepository["alterar"]>();
 
 
 export const produtoQuimicoRepositoryMock: ProdutoQuimicoRepository = {
     findById: findByIdMock,
     registrar: registrarMock,
     findAll: findAllMock,
-    inativar: inativarMock
+    inativar: inativarMock,
+    alterar: alterarMock
 };

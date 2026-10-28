@@ -1,1 +1,1 @@
-{"version":3,"file":"numero-onu.d.ts","sourceRoot":"","sources":["../../../src/domain/entities/numero-onu.ts"],"names":[],"mappings":"AAAA,qBAAa,SAAS;IACE,MAAM,EAAE,MAAM;IAAlC,YAAoB,MAAM,EAAE,MAAM,EAWjC;CACJ"}
+{"version":3,"file":"numero-onu.d.ts","sourceRoot":"","sources":["../../../src/domain/entities/numero-onu.ts"],"names":[],"mappings":"AAEA,qBAAa,SAAS;IACC,MAAM,EAAE,MAAM;IAAjC,YAAmB,MAAM,EAAE,MAAM,EAkBhC;CACJ"}

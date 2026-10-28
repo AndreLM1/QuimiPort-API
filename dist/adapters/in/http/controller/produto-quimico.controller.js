@@ -3,11 +3,13 @@ export class ProdutoQuimicoController {
     findAllProdutos;
     findById;
     inativarProduto;
-    constructor(registrarProduto, findAllProdutos, findById, inativarProduto) {
+    alterarProduto;
+    constructor(registrarProduto, findAllProdutos, findById, inativarProduto, alterarProduto) {
         this.registrarProduto = registrarProduto;
         this.findAllProdutos = findAllProdutos;
         this.findById = findById;
         this.inativarProduto = inativarProduto;
+        this.alterarProduto = alterarProduto;
     }
     async registrar(request, reply) {
         const input = request.body;
@@ -28,6 +30,12 @@ export class ProdutoQuimicoController {
     async inativar(request, reply) {
         const id = Number(request.params.id);
         const produtos = await this.inativarProduto.execute(id);
+        return reply.code(200).send(produtos);
+    }
+    async alterar(request, reply) {
+        const id = Number(request.params.id);
+        const input = request.body;
+        const produtos = await this.alterarProduto.execute(id, input);
         return reply.code(200).send(produtos);
     }
 }

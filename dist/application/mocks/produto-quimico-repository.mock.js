@@ -5,10 +5,12 @@ export const findByIdMock = jest.fn()
 export const registrarMock = jest.fn();
 export const findAllMock = jest.fn();
 export const inativarMock = jest.fn();
+export const alterarMock = jest.fn();
 export const produtoQuimicoRepositoryMock = {
     findById: findByIdMock,
     registrar: registrarMock,
     findAll: findAllMock,
-    inativar: inativarMock
+    inativar: inativarMock,
+    alterar: alterarMock
 };
 //# sourceMappingURL=produto-quimico-repository.mock.js.map

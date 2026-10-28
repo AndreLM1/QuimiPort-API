@@ -2,7 +2,8 @@ import { NumeroOnu } from "./numero-onu.js";
 import { ClasseRisco } from "../enums/classe-de-risco.enum.js"
 import { StatusProduto } from "../enums/status-produto.enum.js"
 import { GrupoCompatibilidade } from "../enums/grupo-compatibilidade.enum.js"
-import { validarCriacao } from "../errors/produto-quimico.validation.js"
+import { validarCriacao, validarAlteracao} from "../errors/produto-quimico.validation.js"
+
 
 export class ProdutoQuimico {
     constructor(
@@ -28,10 +29,26 @@ export class ProdutoQuimico {
     };
 
     public inativar(): void {
-        if(this.statusProduto === StatusProduto.Inativo){
+        if (this.statusProduto === StatusProduto.Inativo) {
             return;
         };
         this.statusProduto = StatusProduto.Inativo;
+    };
+
+    public  alterarDados(novoNome: string,
+        novoNumeroOnu: NumeroOnu,
+        novaClasseRisco: ClasseRisco,
+        novaDescricao: string,
+        novoGrupoCompatibilidade: GrupoCompatibilidade
+    ): void {
+        
+        validarAlteracao(novoNome, novoNumeroOnu, novaClasseRisco, novaDescricao, novoGrupoCompatibilidade)
+
+        this.nome = novoNome;
+        this.numeroOnu = novoNumeroOnu;
+        this.classeRisco = novaClasseRisco;
+        this.descricao = novaDescricao;
+        this.grupoCompatibilidade = novoGrupoCompatibilidade
     }
 }
 

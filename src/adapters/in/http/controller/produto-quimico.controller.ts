@@ -1,4 +1,6 @@
+import type { InputAlterarProdutoQuimico } from "@/application/dtos/alterar-produto-quimico.dto.js";
 import type { InputRegistrarProdutoQuimicoDto } from "@/application/dtos/registrar-produto-quimico.dto.js";
+import type { AlterarProdutoQuimicoUseCase } from "@/application/use-cases/produto-quimico/alterar-produto.use-case.js";
 import type { InativarProdutoQuimicoUseCase } from "@/application/use-cases/produto-quimico/inativar-produto.use-case.js";
 import type { BuscarProdutoQuimicoPorIdUseCase } from "@/application/use-cases/produto-quimico/listar-id-produto.use-case.js";
 import type { ListarProdutoQuimicoUseCase } from "@/application/use-cases/produto-quimico/listar-produto.use-case.js";
@@ -10,7 +12,8 @@ export class ProdutoQuimicoController {
         private readonly registrarProduto: RegistrarProdutoQuimicoUseCase,
         private readonly findAllProdutos: ListarProdutoQuimicoUseCase,
         private readonly findById: BuscarProdutoQuimicoPorIdUseCase,
-        private readonly inativarProduto: InativarProdutoQuimicoUseCase
+        private readonly inativarProduto: InativarProdutoQuimicoUseCase,
+        private readonly alterarProduto: AlterarProdutoQuimicoUseCase
     ) { }
 
     public async registrar(request: FastifyRequest<{
@@ -35,11 +38,22 @@ export class ProdutoQuimicoController {
         return reply.code(200).send(produtos);
     }
 
-    public async inativar(request: FastifyRequest<{ Params: {id: string } }>, 
+    public async inativar(request: FastifyRequest<{ Params: { id: string } }>,
         reply: FastifyReply
     ) {
         const id = Number(request.params.id);
-        const produtos= await this.inativarProduto.execute(id);
+        const produtos = await this.inativarProduto.execute(id);
         return reply.code(200).send(produtos);
+    }
+
+    public async alterar(request: FastifyRequest<{
+        Params: { id: string }, Body: InputAlterarProdutoQuimico
+    }>, reply: FastifyReply
+    ) {
+        const id= Number(request.params.id);
+        const input = request.body;
+        const produtos = await this.alterarProduto.execute(id, input);
+        return reply.code(200).send(produtos);
+
     }
 }

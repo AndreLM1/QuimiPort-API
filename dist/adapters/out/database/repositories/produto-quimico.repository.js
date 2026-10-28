@@ -72,6 +72,32 @@ export class ProdutoQuimicoSqlRepository {
         ;
         return new ProdutoQuimico(produtoProcurado.nome, new NumeroOnu(produtoProcurado.numeroonu), produtoProcurado.descricao, produtoProcurado.classerisco, produtoProcurado.statusproduto, produtoProcurado.grupocompatibilidade, produtoProcurado.datacriacao, produtoProcurado.dataalteracao, produtoProcurado.produtoid);
     }
+    // Alterar
+    async alterar(produtoQuimico) {
+        const query = `UPDATE produtoquimico
+         SET nome=$1, 
+            numeroonu=$2, 
+            descricao=$3, 
+            classerisco= $4,
+            grupocompatibilidade= $5
+        WHERE produtoid=$6
+        RETURNING*`;
+        const values = [
+            produtoQuimico.nome,
+            produtoQuimico.numeroOnu.codigo,
+            produtoQuimico.descricao,
+            produtoQuimico.classeRisco,
+            produtoQuimico.grupoCompatibilidade,
+            produtoQuimico.id
+        ];
+        const { rows } = await this.db.query(query, values);
+        const produtoProcurado = rows[0];
+        if (!produtoProcurado) {
+            return undefined;
+        }
+        ;
+        return new ProdutoQuimico(produtoProcurado.nome, new NumeroOnu(produtoProcurado.numeroonu), produtoProcurado.descricao, produtoProcurado.classerisco, produtoProcurado.statusproduto, produtoProcurado.grupocompatibilidade, produtoProcurado.datacriacao, produtoProcurado.dataalteracao, produtoProcurado.produtoid);
+    }
 }
 ;
 //# sourceMappingURL=produto-quimico.repository.js.map

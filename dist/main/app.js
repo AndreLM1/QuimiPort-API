@@ -12,6 +12,7 @@ import { RegistrarProdutoQuimicoUseCase } from "../application/use-cases/produto
 import { ListarProdutoQuimicoUseCase } from "../application/use-cases/produto-quimico/listar-produto.use-case.js";
 import { BuscarProdutoQuimicoPorIdUseCase } from "../application/use-cases/produto-quimico/listar-id-produto.use-case.js";
 import { InativarProdutoQuimicoUseCase } from "../application/use-cases/produto-quimico/inativar-produto.use-case.js";
+import { AlterarProdutoQuimicoUseCase } from "../application/use-cases/produto-quimico/alterar-produto.use-case.js";
 //-------------  Instância do Fastify -------------
 const app = fastify();
 //------------- Registro do Erro Handler -------------
@@ -25,9 +26,10 @@ const registrarProdutoQuimicoUseCase = new RegistrarProdutoQuimicoUseCase(produt
 const listarProdutoQuimicoUseCase = new ListarProdutoQuimicoUseCase(produtoRepository);
 const buscarProdutoQuimicoPorIdUseCase = new BuscarProdutoQuimicoPorIdUseCase(produtoRepository);
 const inativarProdutoQuimicoUseCase = new InativarProdutoQuimicoUseCase(produtoRepository);
+const alterarProdutoQuimicoUseCase = new AlterarProdutoQuimicoUseCase(produtoRepository);
 //------------- Instância Controller -------------   
 const cargaController = new CargaQuimicaController(registrarCargaUseCase);
-const produtoController = new ProdutoQuimicoController(registrarProdutoQuimicoUseCase, listarProdutoQuimicoUseCase, buscarProdutoQuimicoPorIdUseCase, inativarProdutoQuimicoUseCase);
+const produtoController = new ProdutoQuimicoController(registrarProdutoQuimicoUseCase, listarProdutoQuimicoUseCase, buscarProdutoQuimicoPorIdUseCase, inativarProdutoQuimicoUseCase, alterarProdutoQuimicoUseCase);
 // Rotas Carga Quimica
 app.register(async (instance) => {
     await cargaQuimicaRoutes(instance, cargaController);

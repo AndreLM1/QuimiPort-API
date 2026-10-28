@@ -19,5 +19,6 @@ export declare class ProdutoQuimico {
     dataCriacao?: Date | null | undefined, dataAlteracao?: Date | null | undefined, id?: number | undefined);
     private validarDados;
     inativar(): void;
+    alterarDados(novoNome: string, novoNumeroOnu: NumeroOnu, novaClasseRisco: ClasseRisco, novaDescricao: string, novoGrupoCompatibilidade: GrupoCompatibilidade): void;
 }
 //# sourceMappingURL=produto-quimico.d.ts.map

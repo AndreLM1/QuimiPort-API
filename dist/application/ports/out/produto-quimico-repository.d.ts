@@ -4,5 +4,6 @@ export interface ProdutoQuimicoRepository {
     registrar(produtoQuimico: ProdutoQuimico): Promise<ProdutoQuimico>;
     findAll(): Promise<ProdutoQuimico[]>;
     inativar(id: number): Promise<ProdutoQuimico | undefined>;
+    alterar(produtoQuimico: ProdutoQuimico): Promise<ProdutoQuimico | undefined>;
 }
 //# sourceMappingURL=produto-quimico-repository.d.ts.map
