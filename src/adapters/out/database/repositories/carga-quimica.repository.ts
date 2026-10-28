@@ -6,6 +6,7 @@ import { DocumentoObrigatorio } from "@/domain/entities/documentoObrigatorio.js"
 export class CargaQuimicaSqlRepository implements CargaQuimicaRepository {
     constructor(private readonly db: typeof DatabaseConnection) { };
 
+    // Registrar  
     async registrar(cargaQuimica: CargaQuimica): Promise<CargaQuimica> {
         const query = `INSERT INTO cargaquimica (
         codigocarga,
@@ -58,6 +59,37 @@ export class CargaQuimicaSqlRepository implements CargaQuimicaRepository {
         );
         
         return novaCarga;
+    };
+
+    // Listar Todos
+    async findAll(): Promise<CargaQuimica[]>{
+        const query = `SELECT * FROM cargaquimica;`
+
+        const { rows } = await this.db.query(query);
+        const cargas = [];
+
+        for(const itens of rows){
+            const carga = new CargaQuimica(
+                itens.codigocarga,
+                itens.produtoid,
+                itens.quantidade,
+                itens.unidademedida,
+                itens.origem,
+                itens.destino,
+                itens.responsaveltecnico,
+                new DocumentoObrigatorio(
+                    itens.notafiscal,
+                    itens.declaracaoexpedidor,
+                    itens.fichadadosseguranca,
+                    itens.certificadotransporteprodutosperigosos
+                ),
+                itens.dataentrada,
+                itens.datacriacao,
+                itens.dataatualizacao
+            );
+            cargas.push(carga);
+        };
+        return cargas;
     };
 
 

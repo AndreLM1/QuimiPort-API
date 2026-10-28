@@ -5,5 +5,6 @@ export declare class CargaQuimicaSqlRepository implements CargaQuimicaRepository
     private readonly db;
     constructor(db: typeof DatabaseConnection);
     registrar(cargaQuimica: CargaQuimica): Promise<CargaQuimica>;
+    findAll(): Promise<CargaQuimica[]>;
 }
 //# sourceMappingURL=carga-quimica.repository.d.ts.map

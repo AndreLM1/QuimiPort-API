@@ -6,4 +6,8 @@ export async function cargaQuimicaRoutes (app: FastifyInstance, controller: Carg
     app.post<{Body: InputRegistrarCargaQuimicaDto}>("/cargas-quimicas", (request, reply) =>{
         return controller.registrar(request, reply)
     });
+
+    app.get("/cargas-quimicas", (request, reply) =>{
+        return controller.findAll(request, reply);
+    })
 };
