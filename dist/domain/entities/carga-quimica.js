@@ -1,6 +1,6 @@
 import { StatusCargaQuimica } from "../enums/status-carga-quimica.enum.js";
 import { UnidadeDeMedida } from "../enums/unidade-de-medida.enum.js";
-import { validarCriacaoCarga } from "../errors/carga-quimica.validation.js";
+import { validarCriacaoCarga, validarAlteracaoCarga } from "../errors/carga-quimica.validation.js";
 import { DomainValidationError } from "../errors/domain-validation.error.js";
 import { DocumentoObrigatorio } from "./documentoObrigatorio.js";
 export class CargaQuimica {
@@ -16,7 +16,7 @@ export class CargaQuimica {
     dataCriacao;
     dataAtualizacao;
     id;
-    constructor(codigoCarga, produtoQuimicoId, quantidade, unidadeMedida, origem, destino, responsavelTecnico, documentoObrigatorio, dataEntrada, dataCriacao, dataAtualizacao, id) {
+    constructor(codigoCarga, produtoQuimicoId, quantidade, unidadeMedida, origem, destino, responsavelTecnico, documentoObrigatorio, dataEntrada, dataCriacao, dataAtualizacao, id, statusCarga = StatusCargaQuimica.Registrada) {
         this.codigoCarga = codigoCarga;
         this.produtoQuimicoId = produtoQuimicoId;
         this.quantidade = quantidade;
@@ -29,12 +29,13 @@ export class CargaQuimica {
         this.dataCriacao = dataCriacao;
         this.dataAtualizacao = dataAtualizacao;
         this.id = id;
+        this._statusCarga = statusCarga;
         this.validarDados();
     }
     validarDados() {
         validarCriacaoCarga(this.produtoQuimicoId, this.quantidade, this.responsavelTecnico);
     }
-    _statusCarga = StatusCargaQuimica.Registrada;
+    _statusCarga;
     get statusCarga() {
         return this._statusCarga;
     }
@@ -105,6 +106,15 @@ export class CargaQuimica {
             throw new DomainValidationError(erros, "Operação Não Permitida ");
         }
         this._statusCarga = StatusCargaQuimica.Cancelada;
+    }
+    alterarDados(novoCodigoCarga, novaQuantidade, novaUnidadeMedida, novaOrigem, novoDestino, novoResponsavelTecnico) {
+        validarAlteracaoCarga(novoCodigoCarga, novaQuantidade, novaUnidadeMedida, novaOrigem, novoDestino, novoResponsavelTecnico);
+        this.codigoCarga = novoCodigoCarga;
+        this.quantidade = novaQuantidade;
+        this.unidadeMedida = novaUnidadeMedida;
+        this.origem = novaOrigem;
+        this.destino = novoDestino;
+        this.responsavelTecnico = novoResponsavelTecnico;
     }
 }
 // const novaCarga = new CargaQuimica("CQ-A24", 1, 10, UnidadeDeMedida.kg, "China", "São Paulo", "Andre ", new DocumentoObrigatorio(10, false, true, true), StatusCargaQuimica.Inspecao);            

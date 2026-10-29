@@ -14,7 +14,7 @@ export declare class CargaQuimica {
     dataCriacao?: Date | null | undefined;
     dataAtualizacao?: Date | null | undefined;
     id?: number | undefined;
-    constructor(codigoCarga: string, produtoQuimicoId: number, quantidade: number, unidadeMedida: UnidadeDeMedida, origem: string, destino: string, responsavelTecnico: string, documentoObrigatorio: DocumentoObrigatorio, dataEntrada?: Date | null | undefined, dataCriacao?: Date | null | undefined, dataAtualizacao?: Date | null | undefined, id?: number | undefined);
+    constructor(codigoCarga: string, produtoQuimicoId: number, quantidade: number, unidadeMedida: UnidadeDeMedida, origem: string, destino: string, responsavelTecnico: string, documentoObrigatorio: DocumentoObrigatorio, dataEntrada?: Date | null | undefined, dataCriacao?: Date | null | undefined, dataAtualizacao?: Date | null | undefined, id?: number | undefined, statusCarga?: StatusCargaQuimica);
     private validarDados;
     private _statusCarga;
     get statusCarga(): StatusCargaQuimica;
@@ -25,5 +25,6 @@ export declare class CargaQuimica {
     movimentar(): void;
     finalizar(): void;
     cancelar(): void;
+    alterarDados(novoCodigoCarga: string, novaQuantidade: number, novaUnidadeMedida: UnidadeDeMedida, novaOrigem: string, novoDestino: string, novoResponsavelTecnico: string): void;
 }
 //# sourceMappingURL=carga-quimica.d.ts.map

@@ -1,6 +1,6 @@
 import  { StatusCargaQuimica } from "../enums/status-carga-quimica.enum.js";
 import  { UnidadeDeMedida } from "../enums/unidade-de-medida.enum.js";
-import { validarCriacaoCarga } from "../errors/carga-quimica.validation.js";
+import { validarCriacaoCarga, validarAlteracaoCarga } from "../errors/carga-quimica.validation.js";
 import { DomainValidationError } from "../errors/domain-validation.error.js";
 import  { DocumentoObrigatorio } from "./documentoObrigatorio.js";
 import type { DomainError } from "../errors/domain-interface.error.js"
@@ -20,8 +20,10 @@ export class CargaQuimica{
         public dataEntrada?: Date | null,
         public dataCriacao?: Date | null,
         public dataAtualizacao?: Date | null,
-        public id?: number
+        public id?: number,
+        statusCarga: StatusCargaQuimica = StatusCargaQuimica.Registrada
     ){
+        this._statusCarga = statusCarga
         this.validarDados();
     }
 
@@ -29,7 +31,7 @@ export class CargaQuimica{
         validarCriacaoCarga(this.produtoQuimicoId, this.quantidade, this.responsavelTecnico);
     }
 
-    private _statusCarga: StatusCargaQuimica = StatusCargaQuimica.Registrada
+    private _statusCarga: StatusCargaQuimica;
 
     public get statusCarga(): StatusCargaQuimica{
         return this._statusCarga;
@@ -117,6 +119,23 @@ export class CargaQuimica{
         }
 
         this._statusCarga = StatusCargaQuimica.Cancelada;
+    }
+
+    public alterarDados(novoCodigoCarga: string,
+    novaQuantidade: number,
+    novaUnidadeMedida: UnidadeDeMedida,
+    novaOrigem: string,
+    novoDestino: string,
+    novoResponsavelTecnico: string): void {
+
+        validarAlteracaoCarga(novoCodigoCarga, novaQuantidade, novaUnidadeMedida, novaOrigem, novoDestino, novoResponsavelTecnico);
+        this.codigoCarga = novoCodigoCarga;
+        this.quantidade = novaQuantidade;
+        this.unidadeMedida = novaUnidadeMedida;
+        this.origem = novaOrigem;
+        this.destino = novoDestino;
+        this.responsavelTecnico = novoResponsavelTecnico;
+
     }
     
     

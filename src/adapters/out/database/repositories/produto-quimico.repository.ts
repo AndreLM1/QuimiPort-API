@@ -146,7 +146,7 @@ export class ProdutoQuimicoSqlRepository implements ProdutoQuimicoRepository {
 
         const { rows } = await this.db.query(query, values);
 
-         const produtoProcurado = rows[0];
+        const produtoProcurado = rows[0];
 
         if (!produtoProcurado) {
             return undefined;

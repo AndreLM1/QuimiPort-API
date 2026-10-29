@@ -1,4 +1,5 @@
 import { DomainValidationError } from "./domain-validation.error.js";
+import { UnidadeDeMedida } from "../enums/unidade-de-medida.enum.js";
 export function validarCriacaoCarga(produtoQuimicoId, quantidadeCarga, responsavelTecnico) {
     const erros = [];
     // Validar apenas letras e com espaço
@@ -18,6 +19,35 @@ export function validarCriacaoCarga(produtoQuimicoId, quantidadeCarga, responsav
     // if(!apenasLetras.test(responsavelTecnico)){// Validar apenas letras e com espaço 
     //     erros.push({code: "INVALID_FIELD", field: "responsavelTecnico", message:`Nome inválido: [${responsavelTecnico}]`})
     // }
+    if (erros.length > 0) {
+        throw new DomainValidationError(erros, "A carga possui dados inválidos");
+    }
+}
+export function validarAlteracaoCarga(codigoCarga, quantidade, unidadeMedida, origem, destino, responsavelTecnico) {
+    const erros = [];
+    // Validar apenas letras e com espaço
+    const apenasLetras = new RegExp('^(?=.*[a-záàâãéèêíïóôõöúçñ])[a-záàâãéèêíïóôõöúçñ ]+$', 'i');
+    if (!codigoCarga.trim()) {
+        erros.push({ code: "REQUIRED_FIELD", field: "codigoCarga", message: "Carga Química deve conter um código" });
+    }
+    if (!quantidade) {
+        erros.push({ code: "INVALID_FIELD", field: "quantidade", message: "Informar a quantidade da Carga Química" });
+    }
+    if (quantidade <= 0) {
+        erros.push({ code: "INVALID_FIELD", field: "quantidade", message: "Carga Química deve conter quantidade maior que 0" });
+    }
+    if (!unidadeMedida || !(Object.values(UnidadeDeMedida).includes(unidadeMedida))) {
+        erros.push({ code: "INVALID_FIELD", field: "unidadeMedida", message: "Unidade de Medida inválida" });
+    }
+    if (!origem) {
+        erros.push({ code: "INVALID_FIELD", field: "origem", message: "Informar a origem da Carga Química" });
+    }
+    if (!destino) {
+        erros.push({ code: "INVALID_FIELD", field: "destino", message: "Informar o destino da Carga Química" });
+    }
+    if (!responsavelTecnico || !apenasLetras.test(responsavelTecnico)) {
+        erros.push({ code: "REQUIRED_FIELD", field: "responsavelTecnico", message: "Carga Química deve conter um responsável técnico" });
+    }
     if (erros.length > 0) {
         throw new DomainValidationError(erros, "A carga possui dados inválidos");
     }
