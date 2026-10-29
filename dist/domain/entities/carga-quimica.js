@@ -50,7 +50,7 @@ export class CargaQuimica {
     inspecionar() {
         const erros = [];
         if (this._statusCarga !== StatusCargaQuimica.Analise) {
-            erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Carga não está na etapa de Análise" });
+            erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Carga não está em Análise" });
             throw new DomainValidationError(erros, "Operação Não Permitida ");
         }
         this._statusCarga = StatusCargaQuimica.Inspecao;
@@ -61,7 +61,7 @@ export class CargaQuimica {
             this._statusCarga = StatusCargaQuimica.Bloqueada;
         }
         else {
-            erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Impossível bloquear, verifique o status atual da carga." });
+            erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Carga não está em Inspeção" });
             throw new DomainValidationError(erros, "Operação Não Permitida ");
         }
     }
@@ -72,7 +72,7 @@ export class CargaQuimica {
             && this.documentoObrigatorio.fichaDadosSeguranca
             && this.documentoObrigatorio.notaFiscal > 0;
         if (this._statusCarga !== StatusCargaQuimica.Inspecao) {
-            erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Impossível liberar, verifique o status atual da carga." });
+            erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Carga não está em Inspeção" });
             throw new DomainValidationError(erros, "Operação Não Permitida ");
         }
         ;
@@ -101,7 +101,7 @@ export class CargaQuimica {
     }
     cancelar() {
         const erros = [];
-        if (this._statusCarga !== StatusCargaQuimica.Bloqueada) {
+        if (this._statusCarga === StatusCargaQuimica.Finalizada) {
             erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Impossível cancelar, a carga não está bloqueada" });
             throw new DomainValidationError(erros, "Operação Não Permitida ");
         }

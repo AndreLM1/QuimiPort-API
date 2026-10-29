@@ -17,6 +17,8 @@ import { ListarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica
 import { BuscarCargaQuimicaPorIdUseCase } from "@/application/use-cases/carga-quimica/listar-id-carga.use-case.js";
 import { AtualizaCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/atualizar-carga.use-case.js";
 import { AnalisarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/analisar-carga.use-case.js";
+import { InspecionarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/inspecionar-carga.use-case.js";
+import { LiberarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/liberar-carga.use-case.js";
 
 
 //-------------  Instância do Fastify -------------
@@ -39,6 +41,8 @@ const listarCargaQuimicaUseCase = new ListarCargaQuimicaUseCase(cargaRepository)
 const buscarCargaQuimicaPorIdUseCase = new BuscarCargaQuimicaPorIdUseCase(cargaRepository)
 const atualizaCargaQuimicaUseCase = new AtualizaCargaQuimicaUseCase(cargaRepository)
 const analisarCargaQuimicaUseCase = new AnalisarCargaQuimicaUseCase(cargaRepository)
+const inspecionarCargaQuimicaUseCase = new InspecionarCargaQuimicaUseCase(cargaRepository)
+const liberarCargaQuimicaUseCase = new LiberarCargaQuimicaUseCase(cargaRepository)
 
 const registrarProdutoQuimicoUseCase = new RegistrarProdutoQuimicoUseCase(produtoRepository);
 const listarProdutoQuimicoUseCase = new ListarProdutoQuimicoUseCase(produtoRepository);
@@ -52,9 +56,9 @@ const cargaController = new CargaQuimicaController(
     listarCargaQuimicaUseCase,
     buscarCargaQuimicaPorIdUseCase,
     atualizaCargaQuimicaUseCase,
-    analisarCargaQuimicaUseCase
-
-
+    analisarCargaQuimicaUseCase,
+    inspecionarCargaQuimicaUseCase,
+    liberarCargaQuimicaUseCase
 );
 
 const produtoController = new ProdutoQuimicoController(

@@ -6,13 +6,17 @@ import type { BuscarCargaQuimicaPorIdUseCase } from "../../../../application/use
 import type { InputAlterarCargaQuimica } from "../../../../application/dtos/alterar-carga-quimica.dto.js";
 import type { AtualizaCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/atualizar-carga.use-case.js";
 import type { AnalisarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/analisar-carga.use-case.js";
+import type { InspecionarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/inspecionar-carga.use-case.js";
+import type { LiberarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/liberar-carga.use-case.js";
 export declare class CargaQuimicaController {
     private readonly registrarCarga;
     private readonly findAllProdutos;
     private readonly findCargaById;
     private readonly alterarCarga;
     private readonly analisarCarga;
-    constructor(registrarCarga: RegistrarCargaQuimicaUseCase, findAllProdutos: ListarCargaQuimicaUseCase, findCargaById: BuscarCargaQuimicaPorIdUseCase, alterarCarga: AtualizaCargaQuimicaUseCase, analisarCarga: AnalisarCargaQuimicaUseCase);
+    private readonly inspecionarCarga;
+    private readonly liberarCarga;
+    constructor(registrarCarga: RegistrarCargaQuimicaUseCase, findAllProdutos: ListarCargaQuimicaUseCase, findCargaById: BuscarCargaQuimicaPorIdUseCase, alterarCarga: AtualizaCargaQuimicaUseCase, analisarCarga: AnalisarCargaQuimicaUseCase, inspecionarCarga: InspecionarCargaQuimicaUseCase, liberarCarga: LiberarCargaQuimicaUseCase);
     registrar(request: FastifyRequest<{
         Body: InputRegistrarCargaQuimicaDto;
     }>, reply: FastifyReply): Promise<never>;
@@ -29,6 +33,16 @@ export declare class CargaQuimicaController {
         Body: InputAlterarCargaQuimica;
     }>, reply: FastifyReply): Promise<never>;
     analisar(request: FastifyRequest<{
+        Params: {
+            id: string;
+        };
+    }>, reply: FastifyReply): Promise<never>;
+    inspecionar(request: FastifyRequest<{
+        Params: {
+            id: string;
+        };
+    }>, reply: FastifyReply): Promise<never>;
+    liberar(request: FastifyRequest<{
         Params: {
             id: string;
         };

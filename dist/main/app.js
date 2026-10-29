@@ -17,6 +17,8 @@ import { ListarCargaQuimicaUseCase } from "../application/use-cases/carga-quimic
 import { BuscarCargaQuimicaPorIdUseCase } from "../application/use-cases/carga-quimica/listar-id-carga.use-case.js";
 import { AtualizaCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/atualizar-carga.use-case.js";
 import { AnalisarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/analisar-carga.use-case.js";
+import { InspecionarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/inspecionar-carga.use-case.js";
+import { LiberarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/liberar-carga.use-case.js";
 //-------------  Instância do Fastify -------------
 const app = fastify();
 //------------- Registro do Erro Handler -------------
@@ -30,13 +32,15 @@ const listarCargaQuimicaUseCase = new ListarCargaQuimicaUseCase(cargaRepository)
 const buscarCargaQuimicaPorIdUseCase = new BuscarCargaQuimicaPorIdUseCase(cargaRepository);
 const atualizaCargaQuimicaUseCase = new AtualizaCargaQuimicaUseCase(cargaRepository);
 const analisarCargaQuimicaUseCase = new AnalisarCargaQuimicaUseCase(cargaRepository);
+const inspecionarCargaQuimicaUseCase = new InspecionarCargaQuimicaUseCase(cargaRepository);
+const liberarCargaQuimicaUseCase = new LiberarCargaQuimicaUseCase(cargaRepository);
 const registrarProdutoQuimicoUseCase = new RegistrarProdutoQuimicoUseCase(produtoRepository);
 const listarProdutoQuimicoUseCase = new ListarProdutoQuimicoUseCase(produtoRepository);
 const buscarProdutoQuimicoPorIdUseCase = new BuscarProdutoQuimicoPorIdUseCase(produtoRepository);
 const inativarProdutoQuimicoUseCase = new InativarProdutoQuimicoUseCase(produtoRepository);
 const alterarProdutoQuimicoUseCase = new AlterarProdutoQuimicoUseCase(produtoRepository);
 //------------- Instância Controller -------------   
-const cargaController = new CargaQuimicaController(registrarCargaUseCase, listarCargaQuimicaUseCase, buscarCargaQuimicaPorIdUseCase, atualizaCargaQuimicaUseCase, analisarCargaQuimicaUseCase);
+const cargaController = new CargaQuimicaController(registrarCargaUseCase, listarCargaQuimicaUseCase, buscarCargaQuimicaPorIdUseCase, atualizaCargaQuimicaUseCase, analisarCargaQuimicaUseCase, inspecionarCargaQuimicaUseCase, liberarCargaQuimicaUseCase);
 const produtoController = new ProdutoQuimicoController(registrarProdutoQuimicoUseCase, listarProdutoQuimicoUseCase, buscarProdutoQuimicoPorIdUseCase, inativarProdutoQuimicoUseCase, alterarProdutoQuimicoUseCase);
 // Rotas Carga Quimica
 app.register(async (instance) => {
