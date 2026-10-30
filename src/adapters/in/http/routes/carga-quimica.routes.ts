@@ -32,5 +32,21 @@ export async function cargaQuimicaRoutes(app: FastifyInstance, controller: Carga
         return controller.liberar(request, reply)
     })
 
+    app.patch<{ Params: { id: string }}>("/cargas-quimicas/:id/movimentar", (request, reply) => {
+        return controller.movimentar(request, reply)
+    })
+
+    app.patch<{ Params: { id: string }}>("/cargas-quimicas/:id/finalizar", (request, reply) => {
+        return controller.finalizar(request, reply)
+    })
+
+    app.patch<{ Params: { id: string }}>("/cargas-quimicas/:id/bloquear", (request, reply) => {
+        return controller.bloquear(request, reply)
+    })
+
+    app.patch<{ Params: { id: string }}>("/cargas-quimicas/:id/cancelar", (request, reply) => {
+        return controller.cancelar(request, reply)
+    })
+
     
 };

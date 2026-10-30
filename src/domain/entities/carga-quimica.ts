@@ -114,7 +114,7 @@ export class CargaQuimica{
     public cancelar(): void{
          const erros: DomainError[] = [];
         if(this._statusCarga === StatusCargaQuimica.Finalizada){
-            erros.push({code: "INVALID_OPERATION", field: "statusCarga", message:"Impossível cancelar, a carga não está bloqueada"});
+            erros.push({code: "INVALID_OPERATION", field: "statusCarga", message:"Impossível cancelar, a carga está finalizada"});
             throw new DomainValidationError( erros, "Operação Não Permitida ");
         }
 

@@ -7,7 +7,11 @@ export class CargaQuimicaController {
     analisarCarga;
     inspecionarCarga;
     liberarCarga;
-    constructor(registrarCarga, findAllProdutos, findCargaById, alterarCarga, analisarCarga, inspecionarCarga, liberarCarga) {
+    movimentarCarga;
+    finalizarCarga;
+    bloquearCarga;
+    cancelarCarga;
+    constructor(registrarCarga, findAllProdutos, findCargaById, alterarCarga, analisarCarga, inspecionarCarga, liberarCarga, movimentarCarga, finalizarCarga, bloquearCarga, cancelarCarga) {
         this.registrarCarga = registrarCarga;
         this.findAllProdutos = findAllProdutos;
         this.findCargaById = findCargaById;
@@ -15,6 +19,10 @@ export class CargaQuimicaController {
         this.analisarCarga = analisarCarga;
         this.inspecionarCarga = inspecionarCarga;
         this.liberarCarga = liberarCarga;
+        this.movimentarCarga = movimentarCarga;
+        this.finalizarCarga = finalizarCarga;
+        this.bloquearCarga = bloquearCarga;
+        this.cancelarCarga = cancelarCarga;
     }
     async registrar(request, reply) {
         const input = request.body;
@@ -49,6 +57,26 @@ export class CargaQuimicaController {
     async liberar(request, reply) {
         const id = Number(request.params.id);
         const cargas = await this.liberarCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+    async movimentar(request, reply) {
+        const id = Number(request.params.id);
+        const cargas = await this.movimentarCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+    async finalizar(request, reply) {
+        const id = Number(request.params.id);
+        const cargas = await this.finalizarCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+    async bloquear(request, reply) {
+        const id = Number(request.params.id);
+        const cargas = await this.bloquearCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+    async cancelar(request, reply) {
+        const id = Number(request.params.id);
+        const cargas = await this.cancelarCarga.execute(id);
         return reply.code(200).send(cargas);
     }
 }

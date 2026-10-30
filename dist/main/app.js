@@ -19,39 +19,55 @@ import { AtualizaCargaQuimicaUseCase } from "../application/use-cases/carga-quim
 import { AnalisarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/analisar-carga.use-case.js";
 import { InspecionarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/inspecionar-carga.use-case.js";
 import { LiberarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/liberar-carga.use-case.js";
+import { MovimentarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/movimentar-carga.use-case.js";
+import { FinalizarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/finalizar-carga.use-case.js";
+import { BloquearCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/bloquear-carga.use-case.js";
+import { CancelarCargaQuimicaUseCase } from "../application/use-cases/carga-quimica/cancelar-carga.use-case.js";
+import { registerSwagger } from "../infrastructure/config/swagger.js";
 //-------------  Instância do Fastify -------------
 const app = fastify();
-//------------- Registro do Erro Handler -------------
-registerErrorHandler(app);
-//-------------  Instância dos repositories -------------
-const produtoRepository = new ProdutoQuimicoSqlRepository(DatabaseConnection);
-const cargaRepository = new CargaQuimicaSqlRepository(DatabaseConnection);
-//-------------  Instância dos Casos de Uso -------------
-const registrarCargaUseCase = new RegistrarCargaQuimicaUseCase(produtoRepository, cargaRepository);
-const listarCargaQuimicaUseCase = new ListarCargaQuimicaUseCase(cargaRepository);
-const buscarCargaQuimicaPorIdUseCase = new BuscarCargaQuimicaPorIdUseCase(cargaRepository);
-const atualizaCargaQuimicaUseCase = new AtualizaCargaQuimicaUseCase(cargaRepository);
-const analisarCargaQuimicaUseCase = new AnalisarCargaQuimicaUseCase(cargaRepository);
-const inspecionarCargaQuimicaUseCase = new InspecionarCargaQuimicaUseCase(cargaRepository);
-const liberarCargaQuimicaUseCase = new LiberarCargaQuimicaUseCase(cargaRepository);
-const registrarProdutoQuimicoUseCase = new RegistrarProdutoQuimicoUseCase(produtoRepository);
-const listarProdutoQuimicoUseCase = new ListarProdutoQuimicoUseCase(produtoRepository);
-const buscarProdutoQuimicoPorIdUseCase = new BuscarProdutoQuimicoPorIdUseCase(produtoRepository);
-const inativarProdutoQuimicoUseCase = new InativarProdutoQuimicoUseCase(produtoRepository);
-const alterarProdutoQuimicoUseCase = new AlterarProdutoQuimicoUseCase(produtoRepository);
-//------------- Instância Controller -------------   
-const cargaController = new CargaQuimicaController(registrarCargaUseCase, listarCargaQuimicaUseCase, buscarCargaQuimicaPorIdUseCase, atualizaCargaQuimicaUseCase, analisarCargaQuimicaUseCase, inspecionarCargaQuimicaUseCase, liberarCargaQuimicaUseCase);
-const produtoController = new ProdutoQuimicoController(registrarProdutoQuimicoUseCase, listarProdutoQuimicoUseCase, buscarProdutoQuimicoPorIdUseCase, inativarProdutoQuimicoUseCase, alterarProdutoQuimicoUseCase);
-// Rotas Carga Quimica
-app.register(async (instance) => {
-    await cargaQuimicaRoutes(instance, cargaController);
-});
-// Rotas Produto Quimico
-app.register(async (instance) => {
-    await produtoQuimicoRoutes(instance, produtoController);
-});
-//------------- Início do Servidor
-app.listen({ port: 3000 }, () => {
+async function startServer() {
+    //------------- Registro do Erro Handler -------------
+    registerErrorHandler(app);
+    // Registro do Swagger
+    await registerSwagger(app);
+    //-------------  Instância dos repositories -------------
+    const produtoRepository = new ProdutoQuimicoSqlRepository(DatabaseConnection);
+    const cargaRepository = new CargaQuimicaSqlRepository(DatabaseConnection);
+    //-------------  Instância dos Casos de Uso -------------
+    const registrarCargaUseCase = new RegistrarCargaQuimicaUseCase(produtoRepository, cargaRepository);
+    const listarCargaQuimicaUseCase = new ListarCargaQuimicaUseCase(cargaRepository);
+    const buscarCargaQuimicaPorIdUseCase = new BuscarCargaQuimicaPorIdUseCase(cargaRepository);
+    const atualizaCargaQuimicaUseCase = new AtualizaCargaQuimicaUseCase(cargaRepository);
+    const analisarCargaQuimicaUseCase = new AnalisarCargaQuimicaUseCase(cargaRepository);
+    const inspecionarCargaQuimicaUseCase = new InspecionarCargaQuimicaUseCase(cargaRepository);
+    const liberarCargaQuimicaUseCase = new LiberarCargaQuimicaUseCase(cargaRepository);
+    const movimentarCargaQuimicaUseCase = new MovimentarCargaQuimicaUseCase(cargaRepository);
+    const finalizarCargaQuimicaUseCase = new FinalizarCargaQuimicaUseCase(cargaRepository);
+    const bloquearCargaQuimicaUseCase = new BloquearCargaQuimicaUseCase(cargaRepository);
+    const cancelarCargaQuimicaUseCase = new CancelarCargaQuimicaUseCase(cargaRepository);
+    const registrarProdutoQuimicoUseCase = new RegistrarProdutoQuimicoUseCase(produtoRepository);
+    const listarProdutoQuimicoUseCase = new ListarProdutoQuimicoUseCase(produtoRepository);
+    const buscarProdutoQuimicoPorIdUseCase = new BuscarProdutoQuimicoPorIdUseCase(produtoRepository);
+    const inativarProdutoQuimicoUseCase = new InativarProdutoQuimicoUseCase(produtoRepository);
+    const alterarProdutoQuimicoUseCase = new AlterarProdutoQuimicoUseCase(produtoRepository);
+    //------------- Instância Controller -------------   
+    const cargaController = new CargaQuimicaController(registrarCargaUseCase, listarCargaQuimicaUseCase, buscarCargaQuimicaPorIdUseCase, atualizaCargaQuimicaUseCase, analisarCargaQuimicaUseCase, inspecionarCargaQuimicaUseCase, liberarCargaQuimicaUseCase, movimentarCargaQuimicaUseCase, finalizarCargaQuimicaUseCase, bloquearCargaQuimicaUseCase, cancelarCargaQuimicaUseCase);
+    const produtoController = new ProdutoQuimicoController(registrarProdutoQuimicoUseCase, listarProdutoQuimicoUseCase, buscarProdutoQuimicoPorIdUseCase, inativarProdutoQuimicoUseCase, alterarProdutoQuimicoUseCase);
+    // Rotas Carga Quimica
+    app.register(async (instance) => {
+        await cargaQuimicaRoutes(instance, cargaController);
+    });
+    // Rotas Produto Quimico
+    app.register(async (instance) => {
+        await produtoQuimicoRoutes(instance, produtoController);
+    });
+    //------------- Início do Servidor
+    await app.listen({ port: 3000, host: "0.0.0.0" }, () => { });
     console.log("Server runing on PORT: 3000");
+}
+startServer().catch((error) => {
+    console.error("Erro ao iniciar o servidor:", error);
+    process.exit(1);
 });
 //# sourceMappingURL=app.js.map

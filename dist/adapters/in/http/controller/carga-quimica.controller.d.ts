@@ -8,6 +8,10 @@ import type { AtualizaCargaQuimicaUseCase } from "../../../../application/use-ca
 import type { AnalisarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/analisar-carga.use-case.js";
 import type { InspecionarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/inspecionar-carga.use-case.js";
 import type { LiberarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/liberar-carga.use-case.js";
+import type { MovimentarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/movimentar-carga.use-case.js";
+import type { FinalizarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/finalizar-carga.use-case.js";
+import type { BloquearCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/bloquear-carga.use-case.js";
+import type { CancelarCargaQuimicaUseCase } from "../../../../application/use-cases/carga-quimica/cancelar-carga.use-case.js";
 export declare class CargaQuimicaController {
     private readonly registrarCarga;
     private readonly findAllProdutos;
@@ -16,7 +20,11 @@ export declare class CargaQuimicaController {
     private readonly analisarCarga;
     private readonly inspecionarCarga;
     private readonly liberarCarga;
-    constructor(registrarCarga: RegistrarCargaQuimicaUseCase, findAllProdutos: ListarCargaQuimicaUseCase, findCargaById: BuscarCargaQuimicaPorIdUseCase, alterarCarga: AtualizaCargaQuimicaUseCase, analisarCarga: AnalisarCargaQuimicaUseCase, inspecionarCarga: InspecionarCargaQuimicaUseCase, liberarCarga: LiberarCargaQuimicaUseCase);
+    private readonly movimentarCarga;
+    private readonly finalizarCarga;
+    private readonly bloquearCarga;
+    private readonly cancelarCarga;
+    constructor(registrarCarga: RegistrarCargaQuimicaUseCase, findAllProdutos: ListarCargaQuimicaUseCase, findCargaById: BuscarCargaQuimicaPorIdUseCase, alterarCarga: AtualizaCargaQuimicaUseCase, analisarCarga: AnalisarCargaQuimicaUseCase, inspecionarCarga: InspecionarCargaQuimicaUseCase, liberarCarga: LiberarCargaQuimicaUseCase, movimentarCarga: MovimentarCargaQuimicaUseCase, finalizarCarga: FinalizarCargaQuimicaUseCase, bloquearCarga: BloquearCargaQuimicaUseCase, cancelarCarga: CancelarCargaQuimicaUseCase);
     registrar(request: FastifyRequest<{
         Body: InputRegistrarCargaQuimicaDto;
     }>, reply: FastifyReply): Promise<never>;
@@ -43,6 +51,26 @@ export declare class CargaQuimicaController {
         };
     }>, reply: FastifyReply): Promise<never>;
     liberar(request: FastifyRequest<{
+        Params: {
+            id: string;
+        };
+    }>, reply: FastifyReply): Promise<never>;
+    movimentar(request: FastifyRequest<{
+        Params: {
+            id: string;
+        };
+    }>, reply: FastifyReply): Promise<never>;
+    finalizar(request: FastifyRequest<{
+        Params: {
+            id: string;
+        };
+    }>, reply: FastifyReply): Promise<never>;
+    bloquear(request: FastifyRequest<{
+        Params: {
+            id: string;
+        };
+    }>, reply: FastifyReply): Promise<never>;
+    cancelar(request: FastifyRequest<{
         Params: {
             id: string;
         };

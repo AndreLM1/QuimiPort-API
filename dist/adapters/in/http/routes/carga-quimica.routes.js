@@ -21,6 +21,18 @@ export async function cargaQuimicaRoutes(app, controller) {
     app.patch("/cargas-quimicas/:id/liberar", (request, reply) => {
         return controller.liberar(request, reply);
     });
+    app.patch("/cargas-quimicas/:id/movimentar", (request, reply) => {
+        return controller.movimentar(request, reply);
+    });
+    app.patch("/cargas-quimicas/:id/finalizar", (request, reply) => {
+        return controller.finalizar(request, reply);
+    });
+    app.patch("/cargas-quimicas/:id/bloquear", (request, reply) => {
+        return controller.bloquear(request, reply);
+    });
+    app.patch("/cargas-quimicas/:id/cancelar", (request, reply) => {
+        return controller.cancelar(request, reply);
+    });
 }
 ;
 //# sourceMappingURL=carga-quimica.routes.js.map

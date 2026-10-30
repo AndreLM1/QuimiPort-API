@@ -19,7 +19,7 @@ export class LiberarCargaQuimicaUseCase {
             throw new ResourceNotFoundError({
                 code: "CARGA_QUIMICA_NAO_ENCONTRADA",
                 field: "id",
-                message: `Carga Química com ID ${id} não encontrada durante a análise`
+                message: `Carga Química com ID ${id} não encontrada durante a liberação`
             }, "ResourceNotFoundError");
         }
         return cargaAtualizada;

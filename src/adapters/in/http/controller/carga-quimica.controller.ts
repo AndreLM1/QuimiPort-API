@@ -8,6 +8,10 @@ import type { AtualizaCargaQuimicaUseCase } from "@/application/use-cases/carga-
 import type { AnalisarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/analisar-carga.use-case.js";
 import type { InspecionarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/inspecionar-carga.use-case.js";
 import type { LiberarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/liberar-carga.use-case.js";
+import type { MovimentarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/movimentar-carga.use-case.js";
+import type { FinalizarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/finalizar-carga.use-case.js";
+import type { BloquearCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/bloquear-carga.use-case.js";
+import type { CancelarCargaQuimicaUseCase } from "@/application/use-cases/carga-quimica/cancelar-carga.use-case.js";
 
 export class CargaQuimicaController {
 
@@ -17,7 +21,11 @@ export class CargaQuimicaController {
         private readonly alterarCarga: AtualizaCargaQuimicaUseCase,
         private readonly analisarCarga: AnalisarCargaQuimicaUseCase,
         private readonly inspecionarCarga: InspecionarCargaQuimicaUseCase,
-        private readonly liberarCarga: LiberarCargaQuimicaUseCase
+        private readonly liberarCarga: LiberarCargaQuimicaUseCase,
+        private readonly movimentarCarga: MovimentarCargaQuimicaUseCase,
+        private readonly finalizarCarga: FinalizarCargaQuimicaUseCase,
+        private readonly bloquearCarga: BloquearCargaQuimicaUseCase,
+        private readonly cancelarCarga: CancelarCargaQuimicaUseCase
     ) { }
 
     public async registrar(request: FastifyRequest<{
@@ -73,6 +81,37 @@ export class CargaQuimicaController {
     ){
         const id = Number(request.params.id);
         const cargas = await this.liberarCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+
+    public async movimentar(request: FastifyRequest<{ Params: { id: string } }>,
+        reply: FastifyReply
+    ){
+        const id = Number(request.params.id);
+        const cargas = await this.movimentarCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+
+    public async finalizar(request: FastifyRequest<{ Params: { id: string } }>,
+        reply: FastifyReply
+    ){
+        const id = Number(request.params.id);
+        const cargas = await this.finalizarCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+    public async bloquear(request: FastifyRequest<{ Params: { id: string } }>,
+        reply: FastifyReply
+    ){
+        const id = Number(request.params.id);
+        const cargas = await this.bloquearCarga.execute(id);
+        return reply.code(200).send(cargas);
+    }
+
+    public async cancelar(request: FastifyRequest<{ Params: { id: string } }>,
+        reply: FastifyReply
+    ){
+        const id = Number(request.params.id);
+        const cargas = await this.cancelarCarga.execute(id);
         return reply.code(200).send(cargas);
     }
 }

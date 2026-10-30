@@ -12,6 +12,10 @@ export function registerErrorHandler(app) {
             return reply.code(404).send({ "code": error.violations.code, "message": error.message });
         }
         console.log(error);
+        return reply.code(500).send({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Erro interno do servidor"
+        });
     });
 }
 //# sourceMappingURL=error-handler.js.map
