@@ -1,0 +1,1 @@
+{"version":3,"file":"resource-conflict.errors.js","sourceRoot":"","sources":["../../../src/application/errors/resource-conflict.errors.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,qBAAsB,SAAQ,KAAK;IACd,IAAI;IAAlC,YAA8B,IAAY,EAAE,OAAe;QACvD,KAAK,CAAC,OAAO,CAAC,CAAC;oBADW,IAAI;QAE9B,IAAI,CAAC,IAAI,GAAG,uBAAuB,CAAC;IACxC,CAAC;CACJ"}

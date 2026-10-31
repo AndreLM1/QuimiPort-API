@@ -31,9 +31,9 @@ export function validarCriacao(nome, numeroOnu, classeRisco, statusProduto) {
 export function validarAlteracao(nome, numeroOnu, classeRisco, descricao, grupoCompatibilidade) {
     const erros = [];
     //  Regras de validação para a criação de um produto               
-    if (!nome.trim()) {
+    if (!nome.trim() || !nome) {
         // erros.push("Produto deve conter um nome");
-        erros.push({ code: "MISSING_FIELD", field: "name", message: "Produto deve conter um nome" });
+        erros.push({ code: "MISSING_FIELD", field: "nome", message: "Produto deve conter um nome" });
     }
     if (!numeroOnu) {
         erros.push({ code: "MISSING_FIELD", field: "numeroOnu", message: "Produto deve conter o Número ONU" });
@@ -42,7 +42,7 @@ export function validarAlteracao(nome, numeroOnu, classeRisco, descricao, grupoC
     if (!classeRisco || !(Object.values(ClasseRisco).includes(classeRisco))) {
         erros.push({ code: "REQUIRED_FIELD", field: "classeRisco", message: "Classe de Risco Inválida" });
     }
-    if (!descricao.trim()) {
+    if (!descricao.trim() || !descricao) {
         erros.push({ code: "REQUIRED_FIELD", field: "descricao", message: "Produto deve conter uma descrição" });
     }
     if (!grupoCompatibilidade || !Object.values(GrupoCompatibilidade).includes(grupoCompatibilidade)) {
