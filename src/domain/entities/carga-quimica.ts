@@ -36,6 +36,8 @@ export class CargaQuimica{
     public get statusCarga(): StatusCargaQuimica{
         return this._statusCarga;
     }
+
+
     
     public analisar(): void{
         const erros: DomainError[] = []
@@ -95,7 +97,7 @@ export class CargaQuimica{
         const erros: DomainError[] = []
         if(this._statusCarga !== StatusCargaQuimica.Liberada){
              erros.push({code: "INVALID_OPERATION", field: "statusCarga", message:"Impossível movimentar, a carga não está liberada"})
-            throw new DomainValidationError( erros, "Operação Não Permitida ");
+            throw new DomainValidationError( erros, "Operação Não Permitida");
         }
 
         this._statusCarga = StatusCargaQuimica.Movimentacao
@@ -112,7 +114,7 @@ export class CargaQuimica{
     }
 
     public cancelar(): void{
-         const erros: DomainError[] = [];
+        const erros: DomainError[] = [];
         if(this._statusCarga === StatusCargaQuimica.Finalizada){
             erros.push({code: "INVALID_OPERATION", field: "statusCarga", message:"Impossível cancelar, a carga está finalizada"});
             throw new DomainValidationError( erros, "Operação Não Permitida ");

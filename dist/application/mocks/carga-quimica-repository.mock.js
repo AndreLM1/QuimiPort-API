@@ -6,7 +6,10 @@ export const registrarMock = jest.fn()
 export const findAllMock = jest.fn();
 export const findByIdMock = jest.fn();
 export const alterarMock = jest.fn();
-export const atualizarStatusMock = jest.fn();
+export const atualizarStatusMock = jest.fn()
+    .mockImplementation(async (cargaQuimica) => {
+    return cargaQuimica;
+});
 export const cargaQuimicaRepositoryMock = {
     registrar: registrarMock,
     findAll: findAllMock,

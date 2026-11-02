@@ -7,7 +7,8 @@
     "dev": "tsx watch src/main/app.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/main/app.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "repository": {
     "type": "git",

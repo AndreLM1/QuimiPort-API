@@ -9,7 +9,7 @@ import { StatusCargaQuimica } from "@/domain/enums/status-carga-quimica.enum.js"
 export async function cargaQuimicaRoutes(app: FastifyInstance, controller: CargaQuimicaController) {
     app.post<{ Body: InputRegistrarCargaQuimicaDto }>("/cargas-quimicas", {
         schema: {
-            tags: ["Carga Química"],
+            tags: ["Cargas Químicas"],
             summary: "Cadastrar carga química",
             description: "Registra uma nova carga química no sistema.",
             body: {
@@ -216,12 +216,12 @@ export async function cargaQuimicaRoutes(app: FastifyInstance, controller: Carga
 
     app.get("/cargas-quimicas", {
         schema: {
-            tags: ["Carga Química"],
-            summary: "Cadastrar carga química",
-            description: "Registra uma nova carga química no sistema.",
+            tags: ["Cargas Químicas"],
+            summary: "Listar todas as Cargas Químicas",
+            description: "Listar todas as Cargas Químicas no sistema.",
             response: {
                 201: {
-                    description: "Carga Química cadastrada com sucesso",
+                    description: "Cargas Químicas encontradas",
                     type: "object",
                     properties: {
                         id: { type: "number" },
@@ -286,39 +286,1050 @@ export async function cargaQuimicaRoutes(app: FastifyInstance, controller: Carga
         return controller.findAll(request, reply);
     });
 
-    app.get<{ Params: { id: string } }>("/cargas-quimicas/:id", (request, reply) => {
+    app.get<{ Params: { id: string } }>("/cargas-quimicas/:id", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Buscar carga química por ID",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química encontrada com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "PRODUTO_QUIMICO_NAO_ENCONTRADO"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Produto químico com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+
+    }, (request, reply) => {
         return controller.findId(request, reply);
     })
 
-    app.put<{ Params: { id: string }, Body: InputAlterarCargaQuimica }>("/cargas-quimicas/:id", (request, reply) => {
+    app.put<{ Params: { id: string }, Body: InputAlterarCargaQuimica }>("/cargas-quimicas/:id", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Alterar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            body: {
+
+                type: "object",
+                properties: {
+                    codigoCarga: {
+                        type: "string",
+                        description: "Código da Carga Química."
+                    },
+                    quantidade: {
+                        type: "number",
+                        description: "Quantidade da Carga."
+                    },
+                    unidadeMedida: {
+                        type: "string",
+                        enum: Object.values(UnidadeDeMedida),
+                        description: "Unidade da Carga Química."
+                    },
+                    origem: {
+                        type: "string",
+                        description: "Origem da Carga Química."
+                    },
+                    destino: {
+                        type: "string",
+                        description: "Destino da Carga Química."
+                    },
+                    responsavelTecnico: {
+                        type: "string",
+                        description: "Responsável Técnico da Carga Química."
+                    }
+                },
+                required: [
+                    "codigoCarga",
+                    "quantidade",
+                    "unidadeMedida",
+                    "origem",
+                    "destino",
+                    "responsavelTecnico"
+                ],
+
+            },
+            response:{
+                201: {
+                    description: "Carga Química atualizada com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Dados inválidos para alteração da Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "PRODUTO_QUIMICO_NAO_ENCONTRADO"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Produto químico com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                },
+            }
+            
+        }
+    }, (request, reply) => {
         return controller.alterar(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/analisar", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/analisar", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Analisar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de ANÁLISE com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível analisar Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.analisar(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/inspecionar", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/inspecionar", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Inspecionar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de INSPEÇÃO com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível inspecionar Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.inspecionar(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/liberar", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/liberar", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Liberar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de LIBERADA com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível liberar Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.liberar(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/movimentar", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/movimentar", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Movimentar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de MOVIMENTADA com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível movimentar a Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.movimentar(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/finalizar", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/finalizar", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Finalizar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de FINALIZAR com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível finalizar Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.finalizar(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/bloquear", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/bloquear", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Bloquear Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de BLOQUEADA com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível bloquear Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.bloquear(request, reply)
     })
 
-    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/cancelar", (request, reply) => {
+    app.patch<{ Params: { id: string } }>("/cargas-quimicas/:id/cancelar", {
+        schema: {
+            tags: ["Cargas Químicas"],
+            summary: "Cancelar Carga Química",
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "string" }
+                },
+                required: ["id"]
+            },
+            response: {
+                201: {
+                    description: "Carga Química atualizada para o estatus de CANCELADA com sucesso",
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        codigoCarga: { type: "string" },
+                        produtoQuimicoId: { type: "number" },
+                        quantidade: { type: "number" },
+                        unidadeMedida: {
+                            type: "string",
+                            enum: Object.values(UnidadeDeMedida)
+                        },
+                        origem: { type: "string" },
+                        destino: { type: "string" },
+                        responsavelTecnico: { type: "string" },
+                        documentoObrigatorio: {
+                            type: "object",
+                            properties: {
+                                notaFiscal: { type: "number" },
+                                declaracaoExpedidor: { type: "boolean" },
+                                fichaDadosSeguranca: { type: "boolean" },
+                                certificadoTransporteProdutosPerigoso: { type: "boolean" }
+                            },
+                            required: [
+                                "notaFiscal",
+                                "declaracaoExpedidor",
+                                "fichaDadosSeguranca",
+                                "certificadoTransporteProdutosPerigoso"
+                            ]
+                        },
+                        statusCarga: {
+                            type: "string",
+                            enum: Object.values(StatusCargaQuimica)
+                        },
+                        dataCriacao: {
+                            type: ["string", "null"],
+                            format: "date-time"
+                        },
+                        dataAtualizacao: {
+                            type: ["string"],
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: [
+                        "id",
+                        "codigoCarga",
+                        "produtoQuimicoId",
+                        "quantidade",
+                        "unidadeMedida",
+                        "origem",
+                        "destino",
+                        "responsavelTecnico",
+                        "documentoObrigatorio",
+                        "statusCarga",
+                        "dataCriacao",
+                        "dataAtualizacao"
+
+                    ]
+                },
+                400: {
+                    description: "Impossível cancelar Carga Química",
+                    type: "object",
+                    properties: {
+                        error: { type: "string" },
+                        message: { type: "string" },
+                        violations: {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                properties: {
+                                    code: { type: "string" },
+                                    field: { type: "string" },
+                                    message: { type: "string" }
+                                },
+                                required: ["code", "field", "message"]
+                            }
+                        }
+                    },
+                    required: ["error", "message", "violations"]
+                },
+                404: {
+                    description: "Carga Química não encontrada.",
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            example: "CARGA_QUIMICA_NAO_ENCONTRADA"
+                        },
+                        message: {
+                            type: "string",
+                            example: "Carga Química com ID 10 não encontrado"
+                        }
+                    },
+                    required: ["code", "message"]
+                }
+            }
+        }
+    }, (request, reply) => {
         return controller.cancelar(request, reply)
     })
 

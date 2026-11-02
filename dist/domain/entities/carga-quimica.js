@@ -87,7 +87,7 @@ export class CargaQuimica {
         const erros = [];
         if (this._statusCarga !== StatusCargaQuimica.Liberada) {
             erros.push({ code: "INVALID_OPERATION", field: "statusCarga", message: "Impossível movimentar, a carga não está liberada" });
-            throw new DomainValidationError(erros, "Operação Não Permitida ");
+            throw new DomainValidationError(erros, "Operação Não Permitida");
         }
         this._statusCarga = StatusCargaQuimica.Movimentacao;
     }

@@ -2,7 +2,10 @@ import { ProdutoQuimico } from "../../domain/entities/produto-quimico.js";
 import { jest } from "@jest/globals";
 export const findByIdMock = jest.fn()
     .mockResolvedValue(undefined);
-export const registrarMock = jest.fn();
+export const registrarMock = jest.fn()
+    .mockImplementation(async (produtoQuimico) => {
+    return produtoQuimico;
+});
 export const findAllMock = jest.fn();
 export const inativarMock = jest.fn();
 export const alterarMock = jest.fn();

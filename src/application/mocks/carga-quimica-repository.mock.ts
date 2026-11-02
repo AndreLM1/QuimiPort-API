@@ -10,6 +10,9 @@ export const findAllMock = jest.fn<CargaQuimicaRepository["findAll"]>()
 export const findByIdMock = jest.fn<CargaQuimicaRepository["findById"]>()
 export const alterarMock = jest.fn<CargaQuimicaRepository["atualizar"]>()
 export const atualizarStatusMock = jest.fn<CargaQuimicaRepository["atualizarStatus"]>()
+    .mockImplementation(async (cargaQuimica) => {
+        return cargaQuimica
+    });
 
 
 export const cargaQuimicaRepositoryMock: CargaQuimicaRepository = {

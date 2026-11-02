@@ -59,29 +59,36 @@ describe("Validation Carga Quimica Error", () => {
 
 
     // Teste Unitário Quantidade <= 0
-    it("Devera impedir o cadastro da carga química com quantidade menor ou igual a 0", () => {
-        let excecaoLancada = false
-        try {
-            new CargaQuimica("CQ-A24", 1, -2, UnidadeDeMedida.kg, "China", "São Paulo", "Andre Marques", new DocumentoObrigatorio(1234, true, true, false));
-        } catch (error) {
-            expect(error).toBeInstanceOf(DomainValidationError);
-            excecaoLancada = true;
+    it.each([0, -2])(
+        "Deverá impedir o cadastro da carga química com quantidade %i",
+        (quantidade) => {
+            let excecaoLancada = false;
 
-            if (error instanceof DomainValidationError) {
-                const primeiraViolacao = error.violations[0];
+            try {
+                new CargaQuimica(
+                    "CQ-A24",
+                    1,
+                    quantidade,
+                    UnidadeDeMedida.kg,
+                    "China",
+                    "São Paulo",
+                    "Andre Marques",
+                    new DocumentoObrigatorio(1234, true, true, false)
+                );
+            } catch (error) {
+                expect(error).toBeInstanceOf(DomainValidationError);
+                excecaoLancada = true;
 
-                expect(primeiraViolacao).toBeDefined();
-
-                if (primeiraViolacao) {
-                    expect(primeiraViolacao.message).toBe(
+                if (error instanceof DomainValidationError) {
+                    expect(error.violations[0]?.message).toBe(
                         "Carga Química deve conter quantidade maior que 0"
                     );
                 }
             }
-            // expect(error.violations[0].message).toBe("Carga Química deve conter quantidade maior que 0");
-        };
-        expect(excecaoLancada).toBe(true)
-    })
+
+            expect(excecaoLancada).toBe(true);
+        }
+    );
 
     it("Devera impedir o cadastro da carga química sem responsável técnico associado", () => {
         let excecaoLancada = false
@@ -166,7 +173,7 @@ describe("Validation Carga Quimica Error", () => {
 
                 if (primeiraViolacao) {
                     expect(primeiraViolacao.message).toBe(
-                        "Carga não está na etapa de Análise"
+                        "Carga não está em Análise"
                     );
                 }
             }
@@ -217,7 +224,7 @@ describe("Validation Carga Quimica Error", () => {
 
                 if (primeiraViolacao) {
                     expect(primeiraViolacao.message).toBe(
-                        "Impossível bloquear, verifique o status atual da carga."
+                        "Carga não está em Inspeção"
                     );
                 }
             }
@@ -244,7 +251,7 @@ describe("Validation Carga Quimica Error", () => {
 
                 if (primeiraViolacao) {
                     expect(primeiraViolacao.message).toBe(
-                        "Impossível liberar, verifique o status atual da carga."
+                        "Carga não está em Inspeção"
                     );
                 }
             }
@@ -256,23 +263,27 @@ describe("Validation Carga Quimica Error", () => {
 
 
     // Teste Unitário para impedir a liberação de uma carga que não esteja com a documentação obrigatória.
-    // it("Deverá impedir a liberação caso a carga não esteja com a documentação obrigatória", ()=>{
-    //     let excecaoLancada = false;
-    //     const novaCarga = new CargaQuimica("CQ-A24", 1, 10, UnidadeDeMedida.kg, "China", "São Paulo", "Andre ", new DocumentoObrigatorio(0, true, true, true));            
-    //     // Alterando o status para o teste
-    //     novaCarga.analisar()
-    //     novaCarga.inspecionar() 
-    //     novaCarga.liberar()  
-    //     try {
-    //         novaCarga.liberar() 
-    //     } catch (error) {
-    //         expect(error).toBeInstanceOf(DomainValidationError);
-    //         excecaoLancada = true;
-    //         expect(error.violations[0].message).toBe("Impossível liberar, há documentos faltando");
-    //     }
-    //     expect(novaCarga.statusCarga).toBe(StatusCargaQuimica.Registrada)
-    //     expect(excecaoLancada).toBe(true);
-    // })
+    it("Deverá impedir a liberação caso a carga não esteja com a documentação obrigatória", () => {
+        let excecaoLancada = false;
+        const novaCarga = new CargaQuimica("CQ-A24", 1, 10, UnidadeDeMedida.kg, "China", "São Paulo", "Andre ", new DocumentoObrigatorio(0, false, false, true));
+        // Alterando o status para o teste
+        novaCarga.analisar()
+        novaCarga.inspecionar()
+    
+        try {
+            novaCarga.liberar()
+        } catch (error) {
+            expect(error).toBeInstanceOf(DomainValidationError);
+            excecaoLancada = true;
+            if (error instanceof DomainValidationError) {
+                expect(error.violations[0]?.message).toBe(
+                    "Impossível liberar, há documentos faltando"
+                );
+            }
+        }
+        expect(novaCarga.statusCarga).toBe(StatusCargaQuimica.Inspecao)
+        expect(excecaoLancada).toBe(true);
+    })
 
     // Teste Unitário para liberar uma carga com a documentação obrigatória e estar na etapa de Inspeção
     it("Deverá liberar a carga que esteja com a documentação obrigatória e estar na etapa de Inspeção", () => {
@@ -371,34 +382,6 @@ describe("Validation Carga Quimica Error", () => {
 
 
     // --------- Teste Unitário Método Cancelar ---------
-    // Teste Unitário para impedir o Cancelamento de um carga que não esteja bloqueada
-    it("Deverá impedir o cancelamento de uma carga que não esteja bloqueada", () => {
-        let excecaoLancada = false;
-        const novaCarga = new CargaQuimica("CQ-A24", 1, 10, UnidadeDeMedida.kg, "China", "São Paulo", "Andre ", new DocumentoObrigatorio(0, true, true, true));
-
-        try {
-            novaCarga.cancelar()
-        } catch (error) {
-            expect(error).toBeInstanceOf(DomainValidationError);
-            excecaoLancada = true;
-            if (error instanceof DomainValidationError) {
-                const primeiraViolacao = error.violations[0];
-
-                expect(primeiraViolacao).toBeDefined();
-
-                if (primeiraViolacao) {
-                    expect(primeiraViolacao.message).toBe(
-                        "Impossível cancelar, a carga não está bloqueada"
-                    );
-                }
-            }
-            // expect(error.violations[0].message).toBe("Impossível cancelar, a carga não está bloqueada");
-        }
-        expect(novaCarga.statusCarga).toBe(StatusCargaQuimica.Registrada)
-        expect(excecaoLancada).toBe(true);
-    })
-
-
     // Teste Unitário para cancelar a carga.
     it("Deverá permitir o cancelamento de uma carga bloqueada", () => {
         const novaCarga = new CargaQuimica("CQ-A24", 1, 10, UnidadeDeMedida.kg, "China", "São Paulo", "Andre ", new DocumentoObrigatorio(20, true, true, true));

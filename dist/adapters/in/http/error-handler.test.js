@@ -27,7 +27,7 @@ describe('Error Handler', () => {
     it('deve retornar 500 para erros genéricos', async () => {
         const app = fastify();
         registerErrorHandler(app);
-        app.get("/error", (request, reply) => {
+        app.get("/error", () => {
             throw new Error("Mensagem confidencial");
         });
         const response = await app.inject({
@@ -35,8 +35,9 @@ describe('Error Handler', () => {
             url: '/error',
         });
         expect(response.statusCode).toBe(500);
-        expect(response.json().error).toBe("Internal Server Error");
-        expect(response.body).not.toContain('Mensagem confidencial');
+        expect(response.json().code).toBe("INTERNAL_SERVER_ERROR");
+        expect(response.json().message).toBe("Erro interno do servidor");
+        expect(response.body).not.toContain("Mensagem confidencial");
         await app.close();
     });
 });

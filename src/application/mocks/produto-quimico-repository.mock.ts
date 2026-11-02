@@ -6,7 +6,11 @@ import { jest } from "@jest/globals";
 export const findByIdMock = jest.fn<ProdutoQuimicoRepository["findById"]>()
     .mockResolvedValue(undefined);
 
-export const registrarMock = jest.fn<ProdutoQuimicoRepository["registrar"]>();
+export const registrarMock =
+    jest.fn<ProdutoQuimicoRepository["registrar"]>()
+        .mockImplementation(async (produtoQuimico) => {
+            return produtoQuimico;
+        });
 
 export const findAllMock = jest.fn<ProdutoQuimicoRepository["findAll"]>();
 

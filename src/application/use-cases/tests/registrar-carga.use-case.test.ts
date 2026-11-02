@@ -39,7 +39,7 @@ describe("Validation Registrar Carga Quimica Use Case", () => {
         };
 
         // Executa o caso de uso, chamando o método excute dele e passando o input como parâmetro.
-        await expect(useCase.execute(input)).rejects.toThrow("Produto não encontrado");
+        await expect(useCase.execute(input)).rejects.toThrow(`Produto químico com ID ${input.produtoQuimicoId} não encontrado`);
 
         // Garante que a carga não foi enviada para a persistência
         expect(cargaQuimicaRepositoryMock.registrar).not.toHaveBeenCalled();
@@ -104,7 +104,7 @@ describe("Validation Registrar Carga Quimica Use Case", () => {
         // O await aguarda a verificação da Promise.
         // A expectativa é que execute(input) seja rejeitada
         // com o erro informado, pois o produto está inativo.
-        await expect(useCase.execute(input)).rejects.toThrow("Produto Químico inativo, não pode ser associado à uma Carga Química");
+        await expect(useCase.execute(input)).rejects.toThrow("Não foi possível registrar a carga química");
 
         // Confirma que a consulta do produto foi feita com o id do input
         expect(produtoQuimicoRepositoryMock.findById).toHaveBeenCalledWith(produtoId);
@@ -164,7 +164,8 @@ describe("Validation Registrar Carga Quimica Use Case", () => {
 
         // Confirma que a consulta do produto foi feita com o id do input
         expect(produtoQuimicoRepositoryMock.findById).toHaveBeenCalledWith(produtoId);
-        // Confirma que a carga não foi enviada para a persistência
-        expect(cargaQuimicaRepositoryMock.registrar).toHaveBeenCalled();
+        
+        // Verifica se a carga foi registrada exatamente uma vez.
+        expect(cargaQuimicaRepositoryMock.registrar).toHaveBeenCalledTimes(1);
     })
 });

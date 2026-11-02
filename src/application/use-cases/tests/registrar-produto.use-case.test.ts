@@ -1,12 +1,11 @@
 import { produtoQuimicoRepositoryMock } from "@/application/mocks/produto-quimico-repository.mock.js";
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import { RegistrarProdutoQuimicoUseCase } from "../produto-quimico/registrar-produto.use-case.js";
-import { NumeroOnu } from "@/domain/entities/numero-onu.js";
 import { ClasseRisco } from "@/domain/enums/classe-de-risco.enum.js";
 import { StatusProduto } from "@/domain/enums/status-produto.enum.js";
 import { GrupoCompatibilidade } from "@/domain/enums/grupo-compatibilidade.enum.js";
-import { exec } from "node:child_process";
 import { DomainValidationError } from "@/domain/errors/domain-validation.error.js";
+import { ProdutoQuimico } from "@/domain/entities/produto-quimico.js";
 
 describe("Validation Registrar Produto Quimico Use Case", () => {
     beforeEach(() => {
@@ -43,6 +42,27 @@ describe("Validation Registrar Produto Quimico Use Case", () => {
         }
 
         expect(produtoQuimicoRepositoryMock.registrar).not.toHaveBeenCalled();
+    });
+
+    it("Deve cadastrar um produto químico com sucesso", async () => {
+        const useCase = new RegistrarProdutoQuimicoUseCase(
+            produtoQuimicoRepositoryMock
+        );
+
+        const input = {
+            nome: "Gasolina",
+            numeroOnu: "1203",
+            descricao: "Combustível líquido e inflamável",
+            classeRisco: ClasseRisco.Classe1,
+            statusProduto: StatusProduto.Ativo,
+            grupoCompatibilidade: GrupoCompatibilidade.a,
+        };
+
+
+
+        await expect(useCase.execute(input)).resolves.toBeInstanceOf(ProdutoQuimico);
+        // Verifica se a carga foi registrada exatamente uma vez.
+        expect(produtoQuimicoRepositoryMock.registrar).toHaveBeenCalledTimes(1);
     });
 
 })

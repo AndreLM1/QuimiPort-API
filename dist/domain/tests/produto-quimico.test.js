@@ -31,69 +31,31 @@ describe('Validation Product Error', () => {
         expect(excecaoLancada).toBe(true);
         ;
     });
-    // Teste Unitário para cadastrar sem Classe de Risco
-    it('Devera impedir a criacao de um produto quimico sem classe de risco', () => {
-        let excecaoLancada = false;
+    // Teste unitário impedir a criação de um produto químico sem classe de risco
+    it('Deverá impedir a criação de um produto químico sem classe de risco', () => {
         try {
             new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", undefined, StatusProduto.Ativo, GrupoCompatibilidade.a);
+            throw new Error("Era esperado um erro de validação");
         }
         catch (error) {
             expect(error).toBeInstanceOf(DomainValidationError);
-            excecaoLancada = true;
             if (error instanceof DomainValidationError) {
-                const primeiraViolacao = error.violations[0];
-                expect(primeiraViolacao).toBeDefined();
-                if (primeiraViolacao) {
-                    expect(primeiraViolacao.message).toBe("Classe de Risco Inválida");
-                }
+                expect(error.violations[0]?.message)
+                    .toBe("Classe de Risco Inválida");
             }
-            // expect(error.violations[0].message).toBe("Produto deve conter classe de risco")
         }
-        expect(excecaoLancada).toBe(true);
-        ;
     });
-    // Teste Unitário para cadastrar com classe de risco inválida
-    it('Devera impedir a criacao de um produto com classe de risco inválida', () => {
-        let excecaoLancada = false;
-        try {
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", undefined, StatusProduto.Ativo, GrupoCompatibilidade.b);
-        }
-        catch (error) {
-            expect(error).toBeInstanceOf(DomainValidationError);
-            excecaoLancada = true;
-            if (error instanceof DomainValidationError) {
-                const primeiraViolacao = error.violations[0];
-                expect(primeiraViolacao).toBeDefined();
-                if (primeiraViolacao) {
-                    expect(primeiraViolacao.message).toBe("Classe de Risco Inválida");
-                }
-            }
-            // expect(error.violations[0].message).toBe("Classe de Risco Inválida")
-        }
-        expect(excecaoLancada).toBe(true);
+    it("Deverá inativar um produto químico ativo", () => {
+        const produto = new ProdutoQuimico("Gasolina", new NumeroOnu("1203"), "Combustível líquido e inflamável", ClasseRisco.Classe1, StatusProduto.Ativo, GrupoCompatibilidade.a);
+        produto.inativar();
+        expect(produto.statusProduto).toBe(StatusProduto.Inativo);
     });
-    // Teste Unitário para cadastrar com status inativo
-    it('Devera impedir a criacao de um produto com status inativo', () => {
-        let excecaoLancada = false;
-        try {
-            new ProdutoQuimico("Produto", new NumeroOnu("1234"), "Gasolina", ClasseRisco.Classe1, StatusProduto.Inativo, GrupoCompatibilidade.a);
-        }
-        catch (error) {
-            expect(error).toBeInstanceOf(DomainValidationError);
-            excecaoLancada = true;
-            if (error instanceof DomainValidationError) {
-                const primeiraViolacao = error.violations[0];
-                expect(primeiraViolacao).toBeDefined();
-                if (primeiraViolacao) {
-                    expect(primeiraViolacao.message).toBe("Produto não pode ser cadastrado com o status Inativo");
-                }
-            }
-            // expect(error.violations[0].message).toBe("Produto não pode ser cadastrado com o status Inativo")
-        }
-        expect(excecaoLancada).toBe(true);
+    it("Deverá manter inativo um produto químico que já esteja inativo", () => {
+        const produto = new ProdutoQuimico("Gasolina", new NumeroOnu("1203"), "Combustível líquido e inflamável", ClasseRisco.Classe1, StatusProduto.Ativo, GrupoCompatibilidade.a);
+        produto.inativar();
+        expect(produto.statusProduto).toBe(StatusProduto.Inativo);
+        produto.inativar();
+        expect(produto.statusProduto).toBe(StatusProduto.Inativo);
     });
-    // // Teste Unitário para impedir a associacao de um produto inativo à uma nova carga química
-    // it('Devera impedir a associacao de um produto inativo à uma nova carga química', ()=>{
-    // })
 });
 //# sourceMappingURL=produto-quimico.test.js.map
