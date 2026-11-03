@@ -1,9 +1,11 @@
+
 import type { FastifyInstance } from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 
 export async function registerSwagger(app: FastifyInstance) {
 
+   
     await app.register(swagger, {
         openapi: {
             info: {
@@ -12,13 +14,24 @@ export async function registerSwagger(app: FastifyInstance) {
                 version: "1.0.0"
             },
             tags: [
-                { name: "Produtos Químicos", description: "Operações de produtos químicos" },
-                { name: "Cargas Químicas", description: "Operações de cargas químicas" }
+                {
+                    name: "Produtos Químicos",
+                    description: "Operações de produtos químicos"
+                },
+                {
+                    name: "Cargas Químicas",
+                    description: "Operações de cargas químicas"
+                }
             ]
         }
     });
 
+    
     await app.register(swaggerUi, {
-        routePrefix: "/docs"
-    })
+        routePrefix: "/docs",
+        uiConfig: {
+            docExpansion: "list",
+            deepLinking: false
+        }
+    });
 }

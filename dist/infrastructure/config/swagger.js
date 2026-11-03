@@ -9,13 +9,23 @@ export async function registerSwagger(app) {
                 version: "1.0.0"
             },
             tags: [
-                { name: "Produtos Químicos", description: "Operações de produtos químicos" },
-                { name: "Cargas Químicas", description: "Operações de cargas químicas" }
+                {
+                    name: "Produtos Químicos",
+                    description: "Operações de produtos químicos"
+                },
+                {
+                    name: "Cargas Químicas",
+                    description: "Operações de cargas químicas"
+                }
             ]
         }
     });
     await app.register(swaggerUi, {
-        routePrefix: "/docs"
+        routePrefix: "/docs",
+        uiConfig: {
+            docExpansion: "list",
+            deepLinking: false
+        }
     });
 }
 //# sourceMappingURL=swagger.js.map
