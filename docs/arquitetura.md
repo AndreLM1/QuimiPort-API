@@ -21,37 +21,41 @@ A arquitetura está organizada em três áreas principais:
 ### Fluxo de comunicação
 
 ```text
-              AGENTE EXTERNO
-                Front-end Web
-                     |
-                     | HTTP/HTTPS
-                     v
-             INPUT ADAPTER
-             Controllers / Routes
-                     |
-                     v
-                 INPUT PORT
-                     |
-                     v
-                APPLICATION
-                  Use Cases
-                     |
-                     v
-                  DOMAIN
-              Entidades
-              Value Objects
-              Regras de Negócio
-                     |
-                     v
-                 OUTPUT PORT
-                     |
-                     v
-                OUTPUT ADAPTER
-                 Repository
-                     |
-                     v
-                PostgreSQL
-              AGENTE EXTERNO
+                    AGENTE EXTERNO
+                     Front-end Web
+                          |
+                          | HTTP/HTTPS
+                          v
+                       Adapters
+                   Routes / Controllers
+                          |
+                          |
+                          v
+                     Application
+                        dtos/
+                      use-cases/
+                       errors/
+                          |
+                          v
+                       DOMAIN
+                       entities/
+                       enums/
+                       errors/
+                       metadata/
+                          |
+                          |
+                     Application
+                     /ports/out
+                     repositories
+                          |
+                          v
+                      Adapters
+                     /out/database
+                     repositories/
+                          |
+                          v
+                      PostgreSQL
+                    AGENTE EXTERNO
 ```
 
 ### Organização das responsabilidades
